@@ -31,10 +31,11 @@ external gate that prevents pushing or creating a pull request right now.
 | GitHub CLI | Pass | `$HOME/.local/bin/gh`, version 2.94.0. |
 | GitHub auth | Pass | `gh auth status` reports an active login for `Kirrito-k423`. |
 | Target repo visibility | Pass | `gh repo view Kirrito-k423/AutoModelMigrate` can read the private repository. |
-| Repository permission | Pass at API layer | GitHub API reports viewer permission `ADMIN` and repository `push: true`. |
+| Repository permission | Pass at read/API metadata layer | GitHub API reports viewer permission `ADMIN` and repository `push: true`. |
 | Git HTTPS transport | Blocked | `git push -u origin master` and `git ls-remote origin` return HTTPS 403: `Write access to repository not granted`. |
 | Git SSH transport | Blocked by network | SSH to `github.com:22` times out from this host. |
 | Alternate HTTPS credential path | Blocked | A one-shot `x-access-token` credential helper using `gh auth token` also returns the same HTTPS 403. |
+| GitHub Git Database API write | Blocked | `gh api repos/Kirrito-k423/AutoModelMigrate/git/blobs -X POST ...` returns 403 `Resource not accessible by personal access token`. |
 
 ## Blocking Gate
 
@@ -68,9 +69,12 @@ Notes:
 - The repository exists and is private.
 - `gh repo view` can read it with admin-level viewer permission.
 - HTTPS git operations currently fail with 403 despite API access.
-- The same 403 occurs when bypassing the stored Git credential helper and using
+- The same Git 403 occurs when bypassing the stored Git credential helper and using
   a one-shot `x-access-token` helper backed by `gh auth token`; this points to
   token authorization/scope rather than local credential wiring.
+- A GitHub Git Database API blob-write probe also returns 403 `Resource not
+  accessible by personal access token`, so the token is metadata-readable but
+  not repository-content writable.
 - SSH is not a viable fallback from this host because port 22 to GitHub times
   out.
 - If browser refresh cannot grant git write, log in again with a token that has

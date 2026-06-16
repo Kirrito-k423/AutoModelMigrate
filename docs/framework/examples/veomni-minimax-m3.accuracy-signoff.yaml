@@ -1,0 +1,119 @@
+signoff_id: veomni-minimax-m3-first-slice-accuracy
+migration_id: veomni-minimax-m3
+version: 0.1.0
+
+baseline:
+  name: MiniMaxAI/MiniMax-M3 official reference path
+  kind: reference-model-or-artifact
+  version_or_revision: pending-pin
+  backend: reference-or-gpu
+  dtype: BF16/F32 policy pending artifact inspection
+  command: pending reference command
+  artifact_hashes: []
+
+candidate:
+  name: VeOmni MiniMax M3 adapter path
+  kind: target-framework-adapter
+  version_or_revision: pending-veomni-source-pin
+  backend: reference-or-gpu-first
+  dtype: BF16/F32 policy pending artifact inspection
+  command: pending VeOmni command
+  artifact_hashes: []
+
+evaluation:
+  eval_set_id: minimax-m3-first-slice-text
+  version: pending
+  scope: Tiny text-only fixture first; multimodal and long-context eval sets deferred.
+  sample_count: 0
+  license_or_usage: pending source/eval set selection
+  metrics:
+    - name: logit_max_abs_diff
+      definition: Maximum absolute difference between aligned baseline and candidate logits on the tiny text fixture.
+      owner: ValidationSuite
+    - name: generated_text_invariant
+      definition: Bounded output-shape and non-empty generation invariant for first wiring smoke.
+      owner: ValidationSuite
+    - name: task_accuracy
+      definition: Future task-level score once an eval set and baseline are pinned.
+      owner: ValidationSuite
+
+thresholds:
+  - metric: logit_max_abs_diff
+    comparator: less_than_or_equal
+    target: 0
+    tolerance: 0
+    dtype_scope:
+      - pending
+    backend_scope:
+      - reference-or-gpu
+    kernel_scope:
+      - dense-or-reference
+    blocking: true
+    blocks_transition: Correctness -> Scale
+
+  - metric: task_accuracy
+    comparator: greater_than_or_equal
+    target: 0
+    tolerance: 0
+    dtype_scope:
+      - pending
+    backend_scope:
+      - reference-or-gpu
+    kernel_scope:
+      - pending
+    blocking: true
+    blocks_transition: Accuracy Signoff -> Production Ready
+
+drift_policy:
+  seed_policy: Fixed seed where supported; record nondeterministic kernels if exact repeatability is impossible.
+  dtype_scope:
+    - BF16 pending
+    - F32 pending
+  backend_scope:
+    - reference-or-gpu
+    - Ascend NPU blocked-runtime
+  kernel_scope:
+    - dense fallback pending
+    - MiniMax Sparse Attention unsupported until evidence exists
+  tolerance_notes: Tolerances are placeholders and must be replaced after baseline, dtype, backend, and fixture are pinned.
+
+results:
+  - metric: logit_max_abs_diff
+    status: pending
+    value: null
+    baseline_value: null
+    candidate_value: null
+    blocks_transition: true
+    evidence: []
+
+  - metric: task_accuracy
+    status: blocked
+    value: null
+    baseline_value: null
+    candidate_value: null
+    blocks_transition: true
+    evidence:
+      - id: m3-gap-analysis-validation
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+        note: Task-level accuracy fixtures are not selected yet.
+
+lifecycle_decision:
+  state: blocked
+  blocks_transition: true
+  target_transition: Accuracy Signoff -> Production Ready
+  reason: Baseline, eval set, thresholds, and candidate execution evidence are pending.
+
+review:
+  reviewer: pending
+  date: pending
+  decision: pending
+  notes: This is a pending signoff example, not an accuracy support claim.
+
+evidence:
+  - id: validation-recipe
+    kind: project-doc
+    uri: docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml
+  - id: accuracy-signoff-spec
+    kind: project-doc
+    uri: docs/framework/accuracy-drift-signoff.md

@@ -16,15 +16,15 @@
 
 - [x] **FLOW-01**: A new migration starts with an intake template that captures source/target framework, model architecture, data path, training/inference scope, accelerator scope, and acceptance gates.
 - [x] **FLOW-02**: Gap analysis produces a prioritized backlog of missing adapters, ops, kernels, distributed features, data transforms, and validation fixtures.
-- [ ] **FLOW-03**: Each migration has reproducible recipes for smoke, single-device, distributed, accuracy, and performance runs.
+- [x] **FLOW-03**: Each migration has reproducible recipes for smoke, single-device, distributed, accuracy, and performance runs.
 - [x] **FLOW-04**: Migration status is tracked through states: Intake, Gap Analysis, Adapter Build, Correctness, Scale, Optimize, Accuracy Signoff, Production Ready.
 
 ### Validation and Optimization
 
-- [ ] **VAL-01**: Correctness validation includes shape, dtype, checkpoint load, tokenizer/data parity, forward parity, loss parity, and deterministic seed checks where applicable.
-- [ ] **VAL-02**: Accuracy validation includes task-level acceptance criteria and drift thresholds against a declared baseline.
-- [ ] **VAL-03**: Performance validation includes throughput, latency, memory, utilization, compile overhead, and stability over long runs.
-- [ ] **VAL-04**: Optimization work is driven by profiler evidence and records before/after metrics with configuration diffs.
+- [x] **VAL-01**: Correctness validation includes shape, dtype, checkpoint load, tokenizer/data parity, forward parity, loss parity, and deterministic seed checks where applicable.
+- [x] **VAL-02**: Accuracy validation includes task-level acceptance criteria and drift thresholds against a declared baseline.
+- [x] **VAL-03**: Performance validation includes throughput, latency, memory, utilization, compile overhead, and stability over long runs.
+- [x] **VAL-04**: Optimization work is driven by profiler evidence and records before/after metrics with configuration diffs.
 
 ### Accelerator Portability
 
@@ -70,12 +70,12 @@
 | ARCH-04 | Phase 2 | Complete |
 | FLOW-01 | Phase 2 | Complete |
 | FLOW-02 | Phase 2 | Complete |
-| FLOW-03 | Phase 3 | Pending |
+| FLOW-03 | Phase 3 | Complete |
 | FLOW-04 | Phase 2 | Complete |
-| VAL-01 | Phase 3 | Pending |
-| VAL-02 | Phase 3 | Pending |
-| VAL-03 | Phase 4 | Pending |
-| VAL-04 | Phase 4 | Pending |
+| VAL-01 | Phase 3 | Complete |
+| VAL-02 | Phase 3 | Complete |
+| VAL-03 | Phase 4 | Complete |
+| VAL-04 | Phase 4 | Complete |
 | ACC-01 | Phase 2 | Complete |
 | ACC-02 | Phase 2 | Complete |
 | ACC-03 | Phase 2 | Complete |

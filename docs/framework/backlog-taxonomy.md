@@ -90,6 +90,28 @@ status: blocked
 | M3-VALIDATION-001 | First-slice acceptance thresholds are not written | ValidationSuite | Critical | true | all | Define tiny fixture expected outputs or shape/dtype invariants. | ValidationSuite records executable tiny smoke gate. | Adapter Build -> Correctness | open |
 | M3-OPT-001 | MSA performance modes are not comparable yet | OptimizationLoop | Medium | false | GPU, Ascend NPU | Record future comparison axes for dense fallback, emulated sparse, native sparse, optimized sparse. | Optimization plan has baseline, hypothesis, metrics, and rollback fields. | Correctness -> Optimize | deferred |
 
+## Optimization Backlog Guidance
+
+When an optimization attempt does not close the bottleneck, create or update an
+`OptimizationLoop` item instead of leaving the result in prose. The item should
+include:
+
+- `owner_layer: OptimizationLoop`
+- `severity` based on the blast radius of the bottleneck
+- `evidence` pointing to the performance profile, profiler trace, and any
+  relevant correctness result
+- `first_action` as a concrete next tuning or measurement step
+- `backend_scope` for the affected backend or backends
+- `acceptance_gate` naming the metrics and regression guard required to close
+  the item
+- `status_transition` linking it to `Scale -> Optimize` or
+  `Optimize -> Accuracy Signoff`
+
+Use backlog items for unresolved bottlenecks such as compile overhead, runtime
+instability, MSA kernel gaps, long-context memory pressure, distributed
+communication cost, or precision regressions. Do not convert a runtime blocker
+into a semantic failure; keep the blocker scoped and observable.
+
 ## Lifecycle Mapping
 
 | Lifecycle Transition | Typical Backlog Evidence |

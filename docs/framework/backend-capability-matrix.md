@@ -16,7 +16,7 @@ Capability maturity uses exactly these values:
 | `unsupported` | No usable path is known or the feature is intentionally absent. | Source docs, missing operator evidence, or explicit non-goal. |
 | `emulated` | Fallback path exists but has caveats such as slower dense attention or CPU fallback. | Correctness/parity evidence plus performance caveat. |
 | `native` | Backend/framework directly supports the capability. | Runtime logs, source docs, and correctness evidence. |
-| `optimized` | Native path has profiler-backed tuning and regression guards. | Before/after metrics, profiler output, and rollback criteria. |
+| `optimized` | Native path has profiler-backed tuning and regression guards. | Linked performance profile evidence, profiler output, before/after metrics, correctness regression check, and rollback criteria. |
 
 Do not use `blocked` as a maturity state. Runtime blockers are separate fields.
 
@@ -112,6 +112,7 @@ reference before creating a custom recipe.
 |---------|------------|-----------|----------|----------|------------------|
 | GPU | Dense attention reference | Operators | `native` | PyTorch/reference path assumption from case intake | None recorded yet |
 | GPU | MiniMax Sparse Attention | Operators / Kernels | `unsupported` | MSA support not inspected | implementation evidence missing |
+| GPU | Tiny text optimization path | Graph/compile / Performance | `optimized` | `docs/framework/examples/veomni-minimax-m3.optimization-report.md` | None recorded yet |
 | Ascend NPU | MiniMax Sparse Attention | Operators / Kernels | `unsupported` | NPU runtime blocked before operator evidence | root `npu-smi`, CANN, `torch_npu` |
 | Ascend NPU | BF16 precision | Precision modes | `unsupported` | CANN/PTA matrix not pinned | toolkit and Python stack missing |
 | Ascend NPU | HCCL distributed communication | Communication primitives | `unsupported` | No VeOmni NPU smoke yet | runtime gates 0-5 not passed |
@@ -119,10 +120,30 @@ reference before creating a custom recipe.
 
 ## Matrix Review Rules
 
-1. A row with `optimized` must link profiler evidence and a regression guard.
+1. A row with `optimized` must link profiler evidence, before/after metrics, a
+   correctness regression check, and rollback criteria.
 2. A row with `native` must link correctness evidence.
 3. A row with `emulated` must state the fallback and caveat.
 4. A row with `unsupported` must name the blocker or non-goal.
 5. Runtime blockers never replace maturity status.
 6. Backend-specific branches are acceptable only behind BackendAdapter or a
    framework hook that consumes BackendAdapter data.
+7. Review capability transitions against D-04-07, D-04-08, and D-04-09: keep
+   backend differences in capability rows, require profiler-linked evidence
+   before `optimized`, and keep Ascend NPU runtime blockers separate from
+   maturity.
+
+## Optimization Transition Notes
+
+Use `optimized` only when the row can point to all of the following:
+
+- A performance profile with baseline and candidate identity.
+- A profiler capture for the declared workload.
+- Before/after metrics for throughput, latency, memory, utilization, compile
+  overhead, and runtime stability.
+- A scoped correctness regression check.
+- Rollback criteria.
+
+If a backend is still blocked, keep the blocker in `runtime_blockers` or the
+row evidence instead of forcing a maturity upgrade. That keeps GPU and NPU
+comparable without pretending they have identical runtime states.

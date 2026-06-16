@@ -1,0 +1,191 @@
+profile_id: veomni-minimax-m3-tiny-text-gpu-baseline
+version: 0.1.0
+migration_id: veomni-minimax-m3
+
+manifest_ref:
+  path: docs/framework/examples/veomni-minimax-m3.manifest.yaml
+  uri: https://github.com/Kirrito-k423/AutoModelMigrate/blob/master/docs/framework/examples/veomni-minimax-m3.manifest.yaml
+  revision: pending-manifest-pin
+  checksum: pending-manifest-hash
+
+baseline_id: minimax-m3-reference-tiny-text
+candidate_id: veomni-minimax-m3-tiny-text
+
+backend: GPU
+dtype: BF16
+
+hardware:
+  name: developer workstation GPU
+  kind: reference-gpu
+  count: 1
+  memory_gib: pending
+  host_os: Ubuntu 22.04.4 LTS
+
+framework_revision:
+  name: VeOmni
+  revision: pending-source-pin
+  commit: pending-source-commit
+  recipe_ref: docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml
+
+workload:
+  slice: Phase 3 tiny text path
+  modality: text
+  declared_batch_shape:
+    batch_size: 1
+    sequence_length: 128
+    context_length: 128
+  actual_batch_shape:
+    batch_size: 1
+    sequence_length: 128
+    context_length: 128
+  declared_context_length: 128
+  actual_context_length: 128
+  declared_sequence_length: 128
+  actual_sequence_length: 128
+  scale_target: correctness-green baseline for optimization entry
+  environment:
+    backend_activation: reference GPU environment
+    env_vars:
+      pythonpath: pending
+      ld_library_path: pending
+  notes: Tiny text only; no multimodal, distributed, long-context, or NPU support claim.
+
+optimization_surface:
+  msa:
+    status: pending
+    notes: Keep dense fallback and sparse attention comparison axes visible.
+  long_context:
+    status: pending
+    declared_limit_tokens: 1000000
+    notes: Not expanded beyond the Phase 3 tiny text slice.
+  multimodal:
+    status: not-in-scope
+    notes: Image/video paths remain outside this optimization slice.
+  distributed:
+    status: not-in-scope
+    notes: Distributed communication is explicit future work, not claimed here.
+  ascend_npu:
+    status: blocked
+    blocker_evidence:
+      - kind: project-doc
+        uri: docs/ops/ascend-npu-runtime.md
+        note: Root-approved npu-smi, CANN activation, matching torch_npu, tensor smoke, and VeOmni smoke are not yet complete.
+    notes: Preserve blocked runtime evidence instead of implying NPU execution support.
+
+metrics:
+  common:
+    throughput:
+      value: 43.2
+      unit: tokens/s
+      sample_window_s: 30
+    latency:
+      unit: ms
+      p50_ms: 18.4
+      p95_ms: 25.1
+      p99_ms: 28.7
+    memory:
+      peak_gib: 9.6
+      activation_gib: 2.1
+      kv_cache_gib: 0.4
+    utilization:
+      device_utilization_pct: 78
+      memory_utilization_pct: 62
+      compute_utilization_pct: 74
+    compile_overhead:
+      value: 0.0
+      unit: s
+      warmup_runs: 1
+      cache_hit: true
+    runtime_stability:
+      status: passed
+      duration_min: 10
+      incidents: 0
+      notes: Repeated tiny text runs stayed stable on the same shape and dtype.
+  backend_specific:
+    gpu:
+      status: passed
+      counters:
+        sm_utilization_pct: 74
+        tensor_core_utilization_pct: 51
+        hbm_bandwidth_gbps: 428
+      notes: Reference GPU path for the tiny text slice.
+    ascend_npu:
+      status: blocked
+      counters:
+        npu_smoke_runs: null
+        compiler_cache_hits: null
+        device_utilization_pct: null
+      blockers:
+        - id: driver-permission-or-root-required
+          reason: Normal-user npu-smi info fails and root-approved evidence is still missing.
+          evidence:
+            - kind: project-doc
+              uri: docs/ops/ascend-npu-runtime.md
+              note: Gate 0 remains blocked.
+          next_action: Capture root-approved npu-smi info output.
+        - id: cann-toolkit-missing
+          reason: CANN toolkit and set_env.sh are missing on the host.
+          evidence:
+            - kind: project-doc
+              uri: docs/ops/ascend-npu-runtime.md
+              note: Gate 1 remains blocked.
+          next_action: Confirm CANN version matrix and traffic/disk budget before download.
+      notes: Blocked runtime evidence only; no support claim is made.
+
+profiler:
+  tool: torch.profiler
+  capture_command: python -m torch.profiler --use-cuda --activities CPU CUDA --wait 1 --warmup 1 --active 3 --repeat 2
+  capture_window: Tiny text warm run, steady-state window on the declared 1x128 slice.
+  artifact_refs:
+    - kind: profiler-log
+      uri: logs/performance/veomni-minimax-m3-tiny-text-gpu-baseline.log
+      note: Representative capture log for the GPU reference path.
+    - kind: profiler-trace
+      uri: artifacts/performance/veomni-minimax-m3-tiny-text-gpu-baseline.trace.json
+      note: Trace artifact for before/after comparison.
+  notes: Ascend NPU capture remains blocked until runtime gates are satisfied.
+
+bottleneck:
+  hypothesis: The tiny text slice is likely dominated by decoder step dispatch and memory movement rather than attention kernel time.
+  observed_evidence:
+    - kind: profiler-summary
+      summary: Throughput and latency are stable enough to establish a reference baseline on the tiny text slice.
+      uri: logs/performance/veomni-minimax-m3-tiny-text-gpu-baseline.log
+    - kind: runtime-note
+      summary: Ascend NPU profiling is still blocked by runtime prerequisites.
+      uri: docs/ops/ascend-npu-runtime.md
+  expected_bottleneck: Step dispatch, activation movement, and compile overhead on the tiny text slice.
+  scope: Phase 3 tiny text slice only
+  severity: medium
+
+regression_guard:
+  correctness_checks:
+    - Tiny text forward parity remains green.
+    - Shape and dtype remain pinned to the declared slice.
+    - No new backend support claim is introduced.
+  acceptance_thresholds:
+    throughput_delta_pct_min: 5
+    latency_regression_pct_max: 2
+    runtime_stability_incidents_max: 0
+  rerun_criteria:
+    - Reuse the same manifest_ref and recipe_ref.
+    - Keep the declared and actual batch/context shapes identical.
+    - Re-run on the same backend, dtype, and hardware class.
+  rollback_criteria:
+    - Any correctness regression appears.
+    - Compile overhead increases beyond the declared acceptance threshold.
+    - Runtime stability incidents occur during the declared capture window.
+  notes: Keep the guard tight enough that optimization cannot outrun correctness.
+
+status: passed
+
+evidence:
+  - kind: project-doc
+    uri: docs/framework/performance-profile-spec.md
+    note: Human-readable performance profile contract.
+  - kind: project-doc
+    uri: docs/ops/ascend-npu-runtime.md
+    note: Ascend NPU runtime blockers and evidence.
+  - kind: profiler-artifact
+    uri: artifacts/performance/veomni-minimax-m3-tiny-text-gpu-baseline.trace.json
+    note: Representative trace reference for the tiny text GPU baseline.

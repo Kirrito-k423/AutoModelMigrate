@@ -36,6 +36,7 @@ external gate that prevents pushing or creating a pull request right now.
 | Git SSH transport | Blocked by network | SSH to `github.com:22` times out from this host. |
 | Alternate HTTPS credential path | Blocked | A one-shot `x-access-token` credential helper using `gh auth token` also returns the same HTTPS 403. |
 | GitHub Git Database API write | Blocked | `gh api repos/Kirrito-k423/AutoModelMigrate/git/blobs -X POST ...` returns 403 `Resource not accessible by personal access token`. |
+| GitHub connector write | Blocked | GitHub connector `_get_repo` and `_create_blob` both return 404 for `Kirrito-k423/AutoModelMigrate`; the connector cannot publish this repository. |
 
 ## Blocking Gate
 
@@ -75,6 +76,9 @@ Notes:
 - A GitHub Git Database API blob-write probe also returns 403 `Resource not
   accessible by personal access token`, so the token is metadata-readable but
   not repository-content writable.
+- The GitHub connector cannot be used as a fallback in this session because it
+  cannot see the repository and returns 404 for both repo metadata and blob
+  creation.
 - SSH is not a viable fallback from this host because port 22 to GitHub times
   out.
 - If browser refresh cannot grant git write, log in again with a token that has

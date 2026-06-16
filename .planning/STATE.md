@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Phase 01 completed; ready for verification before Phase 2 planning.
-last_updated: "2026-06-16T03:48:08.468Z"
-last_activity: 2026-06-16 -- Phase 01 marked complete
+status: shipping_blocked
+stopped_at: Phase 01 verified and security-cleared; shipping blocked until GitHub auth is completed.
+last_updated: "2026-06-16T04:08:00Z"
+last_activity: 2026-06-16 -- Phase 01 verified; ship preflight reached GitHub auth gate
 progress:
   total_phases: 5
   completed_phases: 1
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-06-16)
 
 Phase: 01 — COMPLETE
 Plan: 4 of 4
-Status: Phase 01 complete
-Last activity: 2026-06-16 -- Phase 01 marked complete
+Status: Phase 01 verified; shipping blocked on GitHub authentication
+Last activity: 2026-06-16 -- Phase 01 verified; ship preflight reached GitHub auth gate
 
 Progress: [██░░░░░░░░] 20% overall, Phase 01 plans 4/4 complete
 
@@ -58,6 +58,7 @@ Recent decisions affecting current work:
 - Repository publication target is `https://github.com/Kirrito-k423/AutoModelMigrate.git`; local `origin` is configured.
 - Ascend NPU runtime readiness is tracked through `$HOME/.codex/skills/ascend-npu-runtime`.
 - `gh` 2.94.0 is installed under `$HOME/.local`; GitHub authentication is still pending.
+- Phase 01 verification is passed, UAT is complete, and security threats are closed (`threats_open: 0`).
 
 ### Pending Todos
 
@@ -69,6 +70,8 @@ None yet.
 - This project is already initialized; rerunning `$gsd-new-project` should be treated as alignment/update work, while `$gsd-progress` shows the official current state.
 - Current Ascend host is not NPU-ready yet: normal-user `npu-smi info` fails with DCMI `ret=-8005`, the user reports root can see `npu-smi info`, CANN toolkit is missing, and `torch`/`torch_npu` are not installed.
 - CANN must be downloaded from the official HiAscend community page after version-matrix confirmation; avoid speculative downloads because the packages are large.
+- `$gsd-ship` preflight is blocked because `gh auth status` reports no authenticated GitHub hosts. Run `gh auth login` or provide equivalent credentials before pushing/creating a PR.
+- Current completed commits are on local `master`. Because this is the initial publication target, decide after authentication whether to push `master` as the initial default branch or create a separate PR branch from a clean remote base.
 
 ## Deferred Items
 
@@ -79,5 +82,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-06-16 00:00 UTC
-Stopped at: Phase 01 completed; ready for verification before Phase 2 planning.
+Stopped at: Phase 01 verified and security-cleared; shipping blocked until GitHub auth is completed.
 Resume file: None

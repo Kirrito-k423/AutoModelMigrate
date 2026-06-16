@@ -54,7 +54,6 @@ Plans:
   3. Capability matrices can represent unsupported, emulated, native, and optimized states.
 
 **Plans**: 3 plans
-
 Plans:
 
 - [ ] 02-01: Define domain model and manifest schema.

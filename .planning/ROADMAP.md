@@ -75,7 +75,7 @@ Plans:
 
 Plans:
 
-- [ ] 03-01: Design correctness validation harness.
+- [x] 03-01: Design correctness validation harness.
 - [ ] 03-02: Design accuracy and drift signoff artifacts.
 
 ### Phase 4: Backend Optimization Loop
@@ -123,6 +123,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. VeOmni + MiniMax M3 Intake | 4/4 | Complete   | 2026-06-16 |
 | 2. Core Migration Architecture | 3/3 | Complete    | 2026-06-16 |
-| 3. Correctness and Accuracy Harness | 0/2 | Not started | - |
+| 3. Correctness and Accuracy Harness | 1/2 | In Progress|  |
 | 4. Backend Optimization Loop | 0/2 | Not started | - |
 | 5. Reference Case Packaging | 0/2 | Not started | - |

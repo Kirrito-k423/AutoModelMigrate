@@ -1,0 +1,14 @@
+# AI Infra Migration Framework
+
+This workspace is initialized as a GSD project for designing a reusable framework for AI infrastructure migration work: framework-to-framework model support, dataset support, training/inference feature migration, GPU/NPU portability, performance optimization, and accuracy validation.
+
+The first case is VeOmni + MiniMax M3. Start with:
+
+- `.planning/PROJECT.md`
+- `.planning/REQUIREMENTS.md`
+- `.planning/ROADMAP.md`
+- `.planning/phases/01-veomni-minimax-m3-intake/01-CONTEXT.md`
+- `.planning/phases/01-veomni-minimax-m3-intake/01-RESEARCH.md`
+- `.planning/phases/01-veomni-minimax-m3-intake/01-01-PLAN.md`
+
+GSD Core is installed through the official Codex installer at `$HOME/.codex` (`@opengsd/gsd-core` v1.4.5). Node.js is installed in the user environment at `$HOME/.local/node`, with `node`, `npm`, and `npx` linked from `$HOME/.local/bin`.

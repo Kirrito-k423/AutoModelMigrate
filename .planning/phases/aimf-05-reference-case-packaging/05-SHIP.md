@@ -7,6 +7,7 @@ head_sha: "see origin/codex/phase-5-reference-case-packaging"
 pushed: true
 pr_created: false
 created: 2026-06-16
+rechecked: 2026-06-16T15:10:00Z
 ---
 
 # Phase 05 Ship Handoff
@@ -46,6 +47,22 @@ Compare URL:
 PR #1 has since been merged into `master`, so the intended PR base is now
 `master`. The blocker remains the same: the current API token can push over SSH
 and view/list some PR metadata, but cannot read refs well enough to create a PR.
+
+## Latest Recheck
+
+Rechecked on 2026-06-16T15:10:00Z:
+
+- `gh pr list --head codex/phase-5-reference-case-packaging` returned no PRs.
+- `gh api repos/Kirrito-k423/AutoModelMigrate/pulls` with `base=master` and
+  `head=codex/phase-5-reference-case-packaging` still failed with HTTP 422
+  `not all refs are readable`.
+- `gh api repos/Kirrito-k423/AutoModelMigrate/branches/master` still failed
+  with HTTP 403 `Resource not accessible by personal access token`.
+- `gh api repos/Kirrito-k423/AutoModelMigrate/branches/codex%2Fphase-5-reference-case-packaging`
+  still failed with HTTP 403 `Resource not accessible by personal access token`.
+
+The branch remains pushed and synchronized with
+`origin/codex/phase-5-reference-case-packaging`.
 
 ## Validation Before Ship
 

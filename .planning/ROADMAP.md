@@ -8,8 +8,8 @@ The roadmap starts with a real integration slice, then extracts reusable framewo
 
 - [x] **Phase 1: VeOmni + MiniMax M3 Intake** - Research the target model/framework pair, define the smallest useful first slice, and capture GitHub/NPU runtime readiness. (completed 2026-06-16)
 - [x] **Phase 2: Core Migration Architecture** - Design manifests, adapters, capability matrices, and lifecycle states. (completed 2026-06-16)
-- [ ] **Phase 3: Correctness and Accuracy Harness** - Define reproducible validation recipes and parity gates.
-- [ ] **Phase 4: Backend Optimization Loop** - Define GPU/NPU capability modeling, profiling workflow, and performance signoff.
+- [x] **Phase 3: Correctness and Accuracy Harness** - Define reproducible validation recipes and parity gates. (completed 2026-06-16)
+- [x] **Phase 4: Backend Optimization Loop** - Define GPU/NPU capability modeling, profiling workflow, and performance signoff. (completed 2026-06-16)
 - [ ] **Phase 5: Reference Case Packaging** - Package VeOmni + MiniMax M3 outputs into reusable templates and next-case guidance.
 
 ## Phase Details
@@ -76,7 +76,7 @@ Plans:
 Plans:
 
 - [x] 03-01: Design correctness validation harness.
-- [ ] 03-02: Design accuracy and drift signoff artifacts.
+- [x] 03-02: Design accuracy and drift signoff artifacts.
 
 ### Phase 4: Backend Optimization Loop
 
@@ -93,8 +93,8 @@ Plans:
 
 Plans:
 
-- [ ] 04-01: Define profiling and performance report schema.
-- [ ] 04-02: Define backend-specific optimization workflow.
+- [x] 04-01: Define profiling and performance report schema.
+- [x] 04-02: Define backend-specific optimization workflow.
 
 ### Phase 5: Reference Case Packaging
 
@@ -123,6 +123,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. VeOmni + MiniMax M3 Intake | 4/4 | Complete   | 2026-06-16 |
 | 2. Core Migration Architecture | 3/3 | Complete    | 2026-06-16 |
-| 3. Correctness and Accuracy Harness | 1/2 | In Progress|  |
-| 4. Backend Optimization Loop | 0/2 | Not started | - |
+| 3. Correctness and Accuracy Harness | 2/2 | Complete   | 2026-06-16 |
+| 4. Backend Optimization Loop | 2/2 | Complete    | 2026-06-16 |
 | 5. Reference Case Packaging | 0/2 | Not started | - |

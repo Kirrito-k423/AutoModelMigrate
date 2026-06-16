@@ -75,6 +75,53 @@ This gap analysis converts the case intake into owner-layer work items. The sele
 | Long-context memory gates are not staged. | Full 1M context is not first-slice scope. | Medium | OptimizationLoop | Define future memory stages: tiny, 32K, 128K, 1M, with hardware and dtype recorded. | No |
 | NPU profiler route is not selected. | CANN/PTA runtime is not installed and VeOmni smoke has not run. | Low | OptimizationLoop | Defer vendor profiler selection until Gate 5 VeOmni NPU smoke passes. | No |
 
+## Selected First Vertical Slice
+
+**Slice name:** MiniMax M3 reference artifact intake to VeOmni tiny text smoke.
+
+**Goal:** Prove that the migration framework can turn a recent, complex model into explicit specs, adapter gaps, backend capability states, and validation gates before full training, full checkpoint load, or NPU optimization.
+
+### Slice Steps
+
+1. Pin MiniMax M3 source revision and collect config, tokenizer, processor, license, and checkpoint index metadata.
+2. Produce a case ModelSpec draft that includes MSA, advertised 1M context, native multimodality, MoE scale, precision metadata, and unsupported/unknown fields.
+3. Inspect VeOmni model/tokenizer/data builder extension points and decide whether the first adapter wraps official Transformers remote code or creates a native skeleton.
+4. Build a tiny text fixture for tokenizer/processor parity.
+5. Attempt a tiny construction or forward/inference smoke through the safest VeOmni path.
+6. Record blocked capabilities explicitly: MSA kernel status, image/video processor status, NPU runtime status, distributed recipe status, and performance status.
+
+### Rationale
+
+- It is small enough to run without loading the full model or solving distributed training first.
+- It still exercises the framework's critical boundaries: ModelSpec, FrameworkAdapter, DataAdapter, BackendAdapter, and ValidationSuite.
+- It prevents the most dangerous false positive: saying "MiniMax M3 works" when tokenizer, checkpoint, MSA, precision, or NPU semantics are still unknown.
+- It lets NPU setup advance in parallel as a BackendAdapter gate without blocking reference artifact intake.
+
+### Blocking Gaps
+
+The first slice is blocked by these gaps:
+
+| Blocking Gap | Owner Layer | Why It Blocks |
+|--------------|-------------|---------------|
+| MiniMax M3 config schema is not pinned. | ModelSpec | Cannot build stable spec or fixture hashes without a source revision. |
+| Exact VeOmni model registration path is unknown. | FrameworkAdapter | Cannot choose adapter implementation point. |
+| Remote-code and Transformers integration policy is undecided. | FrameworkAdapter | Determines whether first smoke wraps official implementation or writes native skeleton. |
+| Tokenizer class and special tokens are not inventoried. | DataAdapter | Tokenizer drift can invalidate every downstream parity claim. |
+| Checkpoint shard/index layout is not inspected. | DataAdapter | Even config-only smoke needs to know whether full checkpoint load is a future blocker. |
+| First-slice acceptance thresholds are not written. | ValidationSuite | A smoke without expected invariants is not a validation gate. |
+
+NPU runtime gaps do not block the first reference/VeOmni text smoke unless the slice is explicitly changed to require Ascend execution. They remain blocking for any NPU support claim.
+
+### Non-goals
+
+- Full 428B-class checkpoint load.
+- Full 1M context execution.
+- Image/video multimodal forward pass.
+- Distributed training, post-training, or serving integration.
+- Ascend NPU execution before root-level DCMI, CANN, `torch_npu`, tensor smoke, and VeOmni smoke gates pass.
+- Kernel optimization or performance signoff before correctness and parity gates pass.
+
 ## Requirements Trace
 
 - `M3-02`: VeOmni extension gaps are mapped to FrameworkAdapter work.
+- `M3-03`: The first implementation slice is selected with rationale, blockers, and non-goals.

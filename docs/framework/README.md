@@ -14,6 +14,17 @@ taxonomy, and templates for future cases.
 | Backend capability matrix | `docs/framework/backend-capability-matrix.md` | Capability maturity, runtime blockers, backend dimensions, and support evidence. |
 | Migration lifecycle | `docs/framework/migration-lifecycle.md` | Evidence-gated migration states from Intake to Production Ready. |
 | Backlog taxonomy | `docs/framework/backlog-taxonomy.md` | Owner-layer backlog fields, severity, evidence, first action, blocker, and lifecycle mapping. |
+| Correctness validation harness | `docs/framework/correctness-validation-harness.md` | Ordered smoke, unit, parity, runtime, and transition gates before optimization. |
+| Accuracy and drift signoff | `docs/framework/accuracy-drift-signoff.md` | Versioned baseline, metric, threshold, drift, and reviewer signoff contract. |
+| Validation result lifecycle | `docs/framework/validation-result-lifecycle.md` | How validation results block or allow lifecycle transitions and backlog gates. |
+
+## Schemas
+
+| Schema | File | Use |
+|--------|------|-----|
+| Migration manifest schema | `docs/framework/schemas/migration-manifest.schema.json` | Machine-checkable migration manifest skeleton. |
+| Validation recipe schema | `docs/framework/schemas/validation-recipe.schema.json` | Machine-checkable correctness validation recipe skeleton. |
+| Accuracy signoff schema | `docs/framework/schemas/accuracy-signoff.schema.json` | Machine-checkable accuracy and drift signoff skeleton. |
 
 ## Examples
 
@@ -21,6 +32,8 @@ taxonomy, and templates for future cases.
 |---------|------|-----|
 | VeOmni + MiniMax M3 manifest | `docs/framework/examples/veomni-minimax-m3.manifest.yaml` | Shows how a hard model case fills manifest fields. |
 | VeOmni + MiniMax M3 capabilities | `docs/framework/examples/veomni-minimax-m3-capabilities.md` | Shows GPU/NPU capability rows and runtime blockers. |
+| VeOmni + MiniMax M3 validation recipe | `docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml` | Shows first-slice correctness gates and blocked NPU runtime status. |
+| VeOmni + MiniMax M3 accuracy signoff | `docs/framework/examples/veomni-minimax-m3.accuracy-signoff.yaml` | Shows pending accuracy/drift signoff fields without claiming support. |
 
 The MiniMax M3 examples are case-specific. They demonstrate the generic
 contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
@@ -40,8 +53,10 @@ contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
 4. Record backend support and blockers with `docs/framework/backend-capability-matrix.md`.
 5. Convert gaps into backlog items using `docs/framework/backlog-taxonomy.md`.
 6. Move through `docs/framework/migration-lifecycle.md` with evidence-gated transitions.
-7. Build correctness and accuracy gates before scale or optimization work.
-8. Start optimization only after correctness evidence exists, and record profiler-backed before/after metrics.
+7. Build correctness gates with `docs/framework/correctness-validation-harness.md` and `docs/framework/schemas/validation-recipe.schema.json`.
+8. Record accuracy and drift signoff with `docs/framework/accuracy-drift-signoff.md` and `docs/framework/schemas/accuracy-signoff.schema.json`.
+9. Use `docs/framework/validation-result-lifecycle.md` to decide whether validation results block lifecycle transitions.
+10. Start optimization only after correctness evidence exists, and record profiler-backed before/after metrics.
 
 ## Phase 2 Contract Boundary
 
@@ -49,6 +64,14 @@ Phase 2 defines architecture and contract documents. It does not claim that
 MiniMax M3 runs in VeOmni or that Ascend NPU execution is ready. Current NPU
 support remains blocked until driver/DCMI, CANN, PyTorch/PTA or `torch_npu`,
 tensor smoke, and VeOmni smoke gates pass.
+
+## Phase 3 Validation Boundary
+
+Phase 3 defines validation and signoff contracts. It does not claim that
+MiniMax M3 accuracy has been measured, that a VeOmni adapter exists, or that
+NPU execution is ready. Accuracy signoff examples remain pending or blocked
+until baseline, dataset, thresholds, candidate execution, and backend evidence
+are captured.
 
 ## Related Case Evidence
 

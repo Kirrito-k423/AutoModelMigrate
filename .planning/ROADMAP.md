@@ -36,7 +36,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02: Map migration gaps and choose first vertical slice.
+- [x] 01-02: Map migration gaps and choose first vertical slice.
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. VeOmni + MiniMax M3 Intake | 2/4 | In Progress|  |
+| 1. VeOmni + MiniMax M3 Intake | 3/4 | In Progress|  |
 | 2. Core Migration Architecture | 0/3 | Not started | - |
 | 3. Correctness and Accuracy Harness | 0/2 | Not started | - |
 | 4. Backend Optimization Loop | 0/2 | Not started | - |

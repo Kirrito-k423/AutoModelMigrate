@@ -1,7 +1,7 @@
 ---
 phase: 01
 slug: veomni-minimax-m3-intake
-status: blocked_auth
+status: blocked_git_write_scope
 prepared: 2026-06-16T04:04:56Z
 target_repo: https://github.com/Kirrito-k423/AutoModelMigrate.git
 current_branch: master
@@ -29,42 +29,48 @@ external gate that prevents pushing or creating a pull request right now.
 | Remote | Pass | `origin` points to `https://github.com/Kirrito-k423/AutoModelMigrate.git`. |
 | Branch | Initial publication caveat | Current branch is `master`; there is no visible remote base branch yet. |
 | GitHub CLI | Pass | `$HOME/.local/bin/gh`, version 2.94.0. |
-| GitHub auth | Blocked | `gh auth status` reports no authenticated GitHub hosts. |
-| Target repo visibility | Blocked | GitHub connector lookup for `Kirrito-k423/AutoModelMigrate` returned 404 Not Found. |
+| GitHub auth | Pass | `gh auth status` reports an active login for `Kirrito-k423`. |
+| Target repo visibility | Pass | `gh repo view Kirrito-k423/AutoModelMigrate` can read the private repository. |
+| Repository permission | Pass at API layer | GitHub API reports viewer permission `ADMIN` and repository `push: true`. |
+| Git HTTPS transport | Blocked | `git push -u origin master` and `git ls-remote origin` return HTTPS 403: `Write access to repository not granted`. |
+| Git SSH transport | Blocked by network | SSH to `github.com:22` times out from this host. |
 
 ## Blocking Gate
 
-Shipping is blocked by GitHub authentication and repository visibility, not by
-Phase 01 readiness.
+Shipping is blocked by GitHub Git-transport authorization, not by Phase 01
+readiness or repository ownership.
 
 Required external state:
 
-1. Authenticate GitHub CLI:
+1. Refresh GitHub CLI authorization with repository/content write scope. This
+   command opens a browser/device-flow checkpoint:
 
 ```bash
-gh auth login
+gh auth refresh -h github.com -s repo
+```
+
+2. Verify the login and git transport:
+
+```bash
 gh auth status
+git ls-remote origin
 ```
 
-2. Ensure `Kirrito-k423/AutoModelMigrate` exists and the authenticated account
-   can push to it. If it does not exist and the account can create it:
-
-```bash
-gh repo create Kirrito-k423/AutoModelMigrate --private --source=. --remote=origin
-```
-
-Use `--public` only if the publication policy explicitly allows it.
-
-3. Publish the current local branch as the initial remote branch:
+3. Publish the current local branch:
 
 ```bash
 git push -u origin master
 ```
 
-Because this is the initial publication and the target repository is not visible
-yet, this first ship is likely an initial branch push rather than a normal PR
-from a feature branch. After the repository has a real default branch, later
-phases should ship from feature branches and PRs.
+Notes:
+
+- The repository exists and is private.
+- `gh repo view` can read it with admin-level viewer permission.
+- HTTPS git operations currently fail with 403 despite API access.
+- SSH is not a viable fallback from this host because port 22 to GitHub times
+  out.
+- If browser refresh cannot grant git write, log in again with a token that has
+  repository contents read/write access for `Kirrito-k423/AutoModelMigrate`.
 
 ## Publication Body Draft
 
@@ -169,8 +175,8 @@ implementation work.
 
 ## Risks & Dependencies
 
-- GitHub push and PR creation depend on `gh auth login` and repository
-  visibility under `Kirrito-k423/AutoModelMigrate`.
+- GitHub push and PR creation depend on `gh auth refresh -h github.com -s repo`
+  or an equivalent token that can write repository contents over HTTPS.
 - NPU execution depends on root-approved `npu-smi info`, CANN toolkit or a
   validated VeOmni A2/910B Docker route, matching PyTorch plus `torch_npu`, and
   tensor/framework smoke gates.
@@ -194,12 +200,11 @@ gate_status: skill=0, fallback=0, exempt=0, missing=21
 
 ## Resume Checklist
 
-After authentication is complete:
+After Git write authorization is complete:
 
 1. Re-run `gh auth status`.
-2. Re-run `git status --short`.
-3. Confirm or create `Kirrito-k423/AutoModelMigrate`.
+2. Re-run `git ls-remote origin`.
+3. Re-run `git status --short`.
 4. Push `master` with `git push -u origin master`.
 5. If a PR-based flow is required after initial publication, create a feature
    branch from the remote default branch and rerun `$gsd-ship`.
-

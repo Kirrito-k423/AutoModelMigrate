@@ -195,6 +195,15 @@ framework revision, and required environment activation.
   stability.
 - Regression guard and rollback criteria.
 
+The optimization section should also point to concrete artifacts:
+
+- `performance_profile`: the exact performance profile file or URI.
+- `optimization_report`: the exact optimization report file or URI.
+- `backend_capability_rows`: the backend capability entries the change touches.
+- `correctness_result`: the scoped correctness result that stayed green.
+- `backlog_item`: the unresolved bottleneck item, if the attempt did not close
+  the loop.
+
 Kernel optimization is not a substitute for parity. A sparse attention backend
 can be optimized only after correctness and baseline evidence exists.
 
@@ -232,3 +241,5 @@ Every section should carry:
 - [ ] Source and target references are pinned or explicitly marked as assumptions.
 - [ ] MiniMax M3 example values keep MSA, long context, multimodality, checkpoint,
   precision, and NPU blockers visible.
+- [ ] Optimization links to concrete performance profile and optimization
+  report artifacts.

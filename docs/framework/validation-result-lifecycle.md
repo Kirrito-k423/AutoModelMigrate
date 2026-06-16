@@ -26,8 +26,8 @@ a narrow scope.
 | Gap Analysis -> Adapter Build | Model config, artifact, data, backend, and framework gaps are explicit. |
 | Adapter Build -> Correctness | Tokenizer/processor fixture, checkpoint metadata, and construction smoke gates are ready or scoped. |
 | Correctness -> Scale | Forward/logit parity, loss parity where applicable, determinism, and non-NPU backend gates pass. |
-| Scale -> Optimize | Correctness remains green at declared scale, and performance baseline recipe exists. |
-| Optimize -> Accuracy Signoff | Optimized path does not regress correctness gates and has before/after evidence. |
+| Scale -> Optimize | Correctness remains green at declared scale, a baseline performance profile exists for the same slice, and the optimization loop is ready to capture before/after evidence. |
+| Optimize -> Accuracy Signoff | Optimized path does not regress correctness gates, has before/after evidence, and includes rollback criteria. |
 | Accuracy Signoff -> Production Ready | Accuracy/drift signoff passes for declared tasks, backends, dtypes, and accepted risk scope. |
 
 ## `blocks_transition`
@@ -55,6 +55,10 @@ Example: Ascend NPU can remain blocked on root `npu-smi`, CANN, `torch_npu`,
 tensor smoke, and VeOmni smoke while a CPU/GPU/reference correctness recipe
 continues. The migration cannot claim Ascend NPU support until those backend
 runtime gates pass.
+
+Optimization follows the same rule: a blocked backend can remain blocked while
+another backend moves through Scale -> Optimize, but the blocked runtime does
+not become a failed semantic result.
 
 ## Backlog Integration
 
@@ -85,6 +89,10 @@ For VeOmni + MiniMax M3:
 - Pending accuracy/drift signoff blocks Accuracy Signoff -> Production Ready.
 - MSA native or optimized status cannot be claimed until sparse attention
   correctness and performance evidence exists.
+- Scale -> Optimize requires the correctness-green slice plus a baseline
+  performance profile for that slice.
+- Optimize -> Accuracy Signoff requires before/after evidence, a correctness
+  regression check, and rollback criteria.
 
 ## Review Checklist
 

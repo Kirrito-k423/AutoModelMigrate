@@ -161,6 +161,11 @@ targets.
 **MiniMax M3 example:** Move from tiny text to 32K or 128K feasibility before any
 1M context claim.
 
+**Scale -> Optimize evidence chain:** For the declared slice, correctness must
+stay green, the baseline performance profile must exist, and the candidate run
+must reuse the same manifest, recipe, and workload identity before any tuning
+claim starts.
+
 ### Optimize
 
 **Purpose:** Improve performance using profiler evidence after correctness and
@@ -262,6 +267,9 @@ smoke, validation, and performance/accuracy gates satisfy the intended scope.
 5. Backend readiness can be blocked independently while reference/model/framework
    work continues.
 6. Any optimization that changes model semantics routes back to `Correctness`.
+7. `Optimize -> Accuracy Signoff` requires the scoped correctness checks to stay
+   green, before/after evidence to be recorded, and rollback criteria to be
+   explicit.
 
 ## Status Reporting
 

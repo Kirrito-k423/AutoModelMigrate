@@ -17,6 +17,7 @@ taxonomy, and templates for future cases.
 | Correctness validation harness | `docs/framework/correctness-validation-harness.md` | Ordered smoke, unit, parity, runtime, and transition gates before optimization. |
 | Accuracy and drift signoff | `docs/framework/accuracy-drift-signoff.md` | Versioned baseline, metric, threshold, drift, and reviewer signoff contract. |
 | Validation result lifecycle | `docs/framework/validation-result-lifecycle.md` | How validation results block or allow lifecycle transitions and backlog gates. |
+| Performance profile spec | `docs/framework/performance-profile-spec.md` | Backend-neutral performance evidence contract for profiler-backed optimization work. |
 
 ## Schemas
 
@@ -25,6 +26,7 @@ taxonomy, and templates for future cases.
 | Migration manifest schema | `docs/framework/schemas/migration-manifest.schema.json` | Machine-checkable migration manifest skeleton. |
 | Validation recipe schema | `docs/framework/schemas/validation-recipe.schema.json` | Machine-checkable correctness validation recipe skeleton. |
 | Accuracy signoff schema | `docs/framework/schemas/accuracy-signoff.schema.json` | Machine-checkable accuracy and drift signoff skeleton. |
+| Performance profile schema | `docs/framework/schemas/performance-profile.schema.json` | Machine-checkable performance evidence skeleton for optimization baselines and comparisons. |
 
 ## Examples
 
@@ -34,6 +36,7 @@ taxonomy, and templates for future cases.
 | VeOmni + MiniMax M3 capabilities | `docs/framework/examples/veomni-minimax-m3-capabilities.md` | Shows GPU/NPU capability rows and runtime blockers. |
 | VeOmni + MiniMax M3 validation recipe | `docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml` | Shows first-slice correctness gates and blocked NPU runtime status. |
 | VeOmni + MiniMax M3 accuracy signoff | `docs/framework/examples/veomni-minimax-m3.accuracy-signoff.yaml` | Shows pending accuracy/drift signoff fields without claiming support. |
+| VeOmni + MiniMax M3 performance profile | `docs/framework/examples/veomni-minimax-m3.performance-profile.yaml` | Shows the tiny text optimization baseline, backend-specific counters, and blocked Ascend NPU evidence. |
 
 The MiniMax M3 examples are case-specific. They demonstrate the generic
 contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
@@ -56,7 +59,7 @@ contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
 7. Build correctness gates with `docs/framework/correctness-validation-harness.md` and `docs/framework/schemas/validation-recipe.schema.json`.
 8. Record accuracy and drift signoff with `docs/framework/accuracy-drift-signoff.md` and `docs/framework/schemas/accuracy-signoff.schema.json`.
 9. Use `docs/framework/validation-result-lifecycle.md` to decide whether validation results block lifecycle transitions.
-10. Start optimization only after correctness evidence exists, and record profiler-backed before/after metrics.
+10. Start optimization only after correctness evidence exists, then capture the performance profile contract, schema, and profiler-backed before/after metrics.
 
 ## Phase 2 Contract Boundary
 

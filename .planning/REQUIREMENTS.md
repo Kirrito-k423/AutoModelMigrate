@@ -38,7 +38,7 @@
 - [x] **M3-01**: The project captures MiniMax M3 architecture assumptions, including MSA/sparse attention, long-context behavior, multimodal inputs, checkpoint/tokenizer expectations, and inference/training scope.
 - [x] **M3-02**: The project maps VeOmni extension points relevant to model definition, recipes, data loading, distributed parallelism, checkpointing, and accelerator execution.
 - [x] **M3-03**: The first implementation plan identifies the smallest useful MiniMax M3 vertical slice in VeOmni.
-- [ ] **M3-04**: The first case produces reusable framework artifacts, not only VeOmni-specific notes.
+- [x] **M3-04**: The first case produces reusable framework artifacts, not only VeOmni-specific notes.
 
 ### Repository Operations
 
@@ -83,7 +83,7 @@
 | M3-01 | Phase 1 | Complete |
 | M3-02 | Phase 1 | Complete |
 | M3-03 | Phase 1 | Complete |
-| M3-04 | Phase 1, Phase 5 | Pending |
+| M3-04 | Phase 1, Phase 5 | Complete |
 | OPS-01 | Phase 1 | Complete |
 
 **Coverage:**

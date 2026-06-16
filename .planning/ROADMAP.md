@@ -6,7 +6,7 @@ The roadmap starts with a real integration slice, then extracts reusable framewo
 
 ## Phases
 
-- [ ] **Phase 1: VeOmni + MiniMax M3 Intake** - Research the target model/framework pair, define the smallest useful first slice, and capture GitHub/NPU runtime readiness.
+- [x] **Phase 1: VeOmni + MiniMax M3 Intake** - Research the target model/framework pair, define the smallest useful first slice, and capture GitHub/NPU runtime readiness. (completed 2026-06-16)
 - [ ] **Phase 2: Core Migration Architecture** - Design manifests, adapters, capability matrices, and lifecycle states.
 - [ ] **Phase 3: Correctness and Accuracy Harness** - Define reproducible validation recipes and parity gates.
 - [ ] **Phase 4: Backend Optimization Loop** - Define GPU/NPU capability modeling, profiling workflow, and performance signoff.
@@ -40,7 +40,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-03: Draft case-specific intake artifacts and reusable template deltas.
+- [x] 01-03: Draft case-specific intake artifacts and reusable template deltas.
 
 ### Phase 2: Core Migration Architecture
 
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. VeOmni + MiniMax M3 Intake | 3/4 | In Progress|  |
+| 1. VeOmni + MiniMax M3 Intake | 4/4 | Complete   | 2026-06-16 |
 | 2. Core Migration Architecture | 0/3 | Not started | - |
 | 3. Correctness and Accuracy Harness | 0/2 | Not started | - |
 | 4. Backend Optimization Loop | 0/2 | Not started | - |

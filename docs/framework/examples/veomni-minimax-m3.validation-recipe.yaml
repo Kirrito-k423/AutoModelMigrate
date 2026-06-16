@@ -1,0 +1,164 @@
+recipe_id: veomni-minimax-m3-tiny-text-correctness
+migration_id: veomni-minimax-m3
+version: 0.1.0
+
+scope:
+  stage: first-slice-correctness
+  description: MiniMax M3 reference artifact intake to VeOmni tiny text smoke.
+  backend_scope:
+    - reference
+    - GPU reference where available
+    - Ascend NPU blocked-runtime
+  non_goals:
+    - Full 428B-class checkpoint load
+    - Full 1M context execution
+    - Image or video forward pass
+    - Ascend NPU execution before runtime gates pass
+    - Kernel optimization before correctness
+
+baseline:
+  name: MiniMaxAI/MiniMax-M3 official reference path
+  kind: reference-model-or-artifact
+  version_or_revision: pending-pin
+  uri: https://huggingface.co/MiniMaxAI/MiniMax-M3
+  notes: Exact revision, config hash, tokenizer hash, and remote-code policy must be pinned before execution.
+
+candidate:
+  name: VeOmni MiniMax M3 adapter path
+  kind: target-framework-adapter
+  version_or_revision: pending-veomni-source-pin
+  uri: https://github.com/ByteDance-Seed/VeOmni
+  notes: First candidate may be a construction skeleton or wrapper path depending on VeOmni extension-point inspection.
+
+environment:
+  backend: reference-or-gpu-first
+  dtype: BF16/F32 policy pending artifact inspection
+  hardware: developer workstation or declared reference GPU
+  software:
+    - Python 3.10+
+    - PyTorch project-pinned
+    - Transformers/reference path pending policy
+    - VeOmni source-pinned
+  seed_policy: Fixed seed for deterministic fixture runs where framework support allows it.
+
+fixtures:
+  - id: tiny-text-001
+    modality: text
+    path_or_inline: "Prompt: Describe the purpose of a validation harness in one sentence."
+    expected_evidence: Tokenizer/processor output fields, token count, dtype, shape, and generated/forward output invariant.
+    notes: Keep fixture small enough for config/processor and construction smoke before full checkpoint work.
+
+gates:
+  - id: manifest-schema
+    type: manifest
+    owner_layer: ValidationSuite
+    blocking: true
+    lifecycle_transition: Intake -> Gap Analysis
+    command: python3 -m json.tool docs/framework/schemas/migration-manifest.schema.json >/dev/null
+    fixture_ids: []
+    expected_evidence: Manifest schema parses and MiniMax M3 manifest contains required sections.
+    status: passed
+    evidence:
+      - id: phase-02-verification
+        kind: project-doc
+        uri: .planning/phases/aimf-02-core-migration-architecture/02-VERIFICATION.md
+
+  - id: model-config-inventory
+    type: model_config
+    owner_layer: ModelSpec
+    blocking: true
+    lifecycle_transition: Gap Analysis -> Adapter Build
+    command: Inspect pinned MiniMax M3 config, architecture fields, dtype metadata, and context limits.
+    fixture_ids: []
+    expected_evidence: Revision, config hash, architecture class, MSA fields, MoE fields, dtype metadata, and context limit.
+    status: pending
+    blocked_by: source revision and artifact hashes are not pinned yet
+
+  - id: tokenizer-processor-fixture
+    type: tokenizer_processor
+    owner_layer: DataAdapter
+    blocking: true
+    lifecycle_transition: Adapter Build -> Correctness
+    command: Run official processor/tokenizer on fixture tiny-text-001 and save output fields.
+    fixture_ids:
+      - tiny-text-001
+    expected_evidence: Tokenizer class, special tokens, chat template, media placeholder policy, token ids, masks, and shapes.
+    status: pending
+    blocked_by: tokenizer and processor files have not been inspected
+
+  - id: checkpoint-metadata
+    type: checkpoint_metadata
+    owner_layer: DataAdapter
+    blocking: true
+    lifecycle_transition: Adapter Build -> Correctness
+    command: Inspect Hugging Face file list, safetensors index, shard count, dtype mix, and module-name patterns.
+    fixture_ids: []
+    expected_evidence: Checkpoint/index inventory without requiring full checkpoint load.
+    status: pending
+    blocked_by: checkpoint index metadata has not been captured
+
+  - id: veomni-construction-smoke
+    type: construction_smoke
+    owner_layer: FrameworkAdapter
+    blocking: true
+    lifecycle_transition: Adapter Build -> Correctness
+    command: Run smallest VeOmni construction or wrapper smoke for MiniMax M3 tiny text path.
+    fixture_ids:
+      - tiny-text-001
+    expected_evidence: Command, config, framework commit, output keys, shapes, dtypes, and explicit unsupported capability statuses.
+    status: pending
+    blocked_by: exact VeOmni registry/builder path is unknown
+
+  - id: forward-logit-parity
+    type: forward_parity
+    owner_layer: ValidationSuite
+    blocking: true
+    lifecycle_transition: Correctness -> Scale
+    command: Compare reference and VeOmni candidate forward/logit outputs on tiny-text-001 with declared dtype/backend tolerance.
+    fixture_ids:
+      - tiny-text-001
+    expected_evidence: Baseline output, candidate output, tolerance, drift summary, and rerun command.
+    status: pending
+    blocked_by: reference and candidate execution paths are not both available
+
+  - id: ascend-npu-runtime
+    type: backend_runtime
+    owner_layer: BackendAdapter
+    blocking: true
+    lifecycle_transition: Backend-specific NPU support claim
+    command: Capture root npu-smi, activate CANN, import torch_npu, run tensor smoke, then run smallest VeOmni NPU smoke.
+    fixture_ids: []
+    expected_evidence: root npu-smi, CANN env, torch_npu import, tensor smoke, and VeOmni smoke logs.
+    status: blocked
+    blocked_by: root npu-smi evidence, CANN toolkit, torch_npu, tensor smoke, and VeOmni NPU smoke are missing
+    evidence:
+      - id: ascend-runbook
+        kind: project-doc
+        uri: docs/ops/ascend-npu-runtime.md
+
+results:
+  - gate_id: manifest-schema
+    status: passed
+    summary: Phase 2 manifest schema and example exist; first-slice implementation gates remain pending.
+    blocks_transition: false
+    evidence:
+      - id: phase-02-verification
+        kind: project-doc
+        uri: .planning/phases/aimf-02-core-migration-architecture/02-VERIFICATION.md
+
+  - gate_id: ascend-npu-runtime
+    status: blocked
+    summary: NPU execution cannot be claimed until runtime gates pass.
+    blocks_transition: true
+    evidence:
+      - id: npu-runtime-evidence
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/npu-runtime-evidence.md
+
+evidence:
+  - id: phase-03-context
+    kind: project-doc
+    uri: .planning/phases/aimf-03-correctness-and-accuracy-harness/03-CONTEXT.md
+  - id: m3-gap-analysis
+    kind: project-doc
+    uri: docs/cases/veomni-minimax-m3/gap-analysis.md

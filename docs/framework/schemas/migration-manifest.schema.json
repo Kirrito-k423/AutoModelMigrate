@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Kirrito-k423/AutoModelMigrate/schemas/migration-manifest.schema.json",
+  "title": "AI Infra Migration Manifest",
+  "description": "Machine-checkable contract for model, framework, data, backend, validation, and optimization migration work.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "migration",
+    "source",
+    "target",
+    "model_spec",
+    "framework_adapter",
+    "backend_matrix",
+    "data_contract",
+    "recipe",
+    "validation",
+    "optimization",
+    "ownership",
+    "evidence"
+  ],
+  "properties": {
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "status", "first_slice"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "$ref": "#/$defs/lifecycle_status" },
+        "first_slice": { "type": "string" },
+        "non_goals": { "type": "array", "items": { "type": "string" } },
+        "assumptions": { "type": "array", "items": { "$ref": "#/$defs/assumption" } }
+      }
+    },
+    "source": {
+      "$ref": "#/$defs/system_ref"
+    },
+    "target": {
+      "$ref": "#/$defs/system_ref"
+    },
+    "model_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner_layer",
+        "model_family",
+        "architecture",
+        "modalities",
+        "attention",
+        "context",
+        "precision_policy",
+        "artifact_revision",
+        "evidence"
+      ],
+      "properties": {
+        "owner_layer": { "$ref": "#/$defs/owner_layer" },
+        "model_family": { "type": "string" },
+        "architecture": { "type": "string" },
+        "modalities": { "type": "array", "items": { "type": "string" } },
+        "attention": { "$ref": "#/$defs/capability_ref" },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["advertised_limit", "validation_targets"],
+          "properties": {
+            "advertised_limit": { "type": "string" },
+            "validation_targets": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/validation_target" }
+            }
+          }
+        },
+        "precision_policy": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "artifact_revision": { "$ref": "#/$defs/evidence_ref" },
+        "checkpoint": { "$ref": "#/$defs/capability_ref" },
+        "tokenizer_processor": { "$ref": "#/$defs/capability_ref" },
+        "assumptions": { "type": "array", "items": { "$ref": "#/$defs/assumption" } },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence_ref" } }
+      }
+    },
+    "framework_adapter": {
+      "$ref": "#/$defs/owned_contract"
+    },
+    "backend_matrix": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/backend_capability" }
+    },
+    "data_contract": {
+      "$ref": "#/$defs/owned_contract"
+    },
+    "recipe": {
+      "$ref": "#/$defs/owned_contract"
+    },
+    "validation": {
+      "$ref": "#/$defs/owned_contract"
+    },
+    "optimization": {
+      "$ref": "#/$defs/owned_contract"
+    },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/owner_ref" }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidence_ref" }
+    }
+  },
+  "$defs": {
+    "owner_layer": {
+      "type": "string",
+      "enum": [
+        "ModelSpec",
+        "FrameworkAdapter",
+        "BackendAdapter",
+        "DataAdapter",
+        "Recipe",
+        "ValidationSuite",
+        "OptimizationLoop"
+      ]
+    },
+    "capability_status": {
+      "type": "string",
+      "enum": ["unsupported", "emulated", "native", "optimized"]
+    },
+    "lifecycle_status": {
+      "type": "string",
+      "enum": [
+        "Intake",
+        "Gap Analysis",
+        "Adapter Build",
+        "Correctness",
+        "Scale",
+        "Optimize",
+        "Accuracy Signoff",
+        "Production Ready"
+      ]
+    },
+    "system_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind", "version_or_revision", "evidence"],
+      "properties": {
+        "name": { "type": "string" },
+        "kind": { "type": "string" },
+        "version_or_revision": { "type": "string" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence_ref" } }
+      }
+    },
+    "owned_contract": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["owner_layer", "status", "evidence"],
+      "properties": {
+        "owner_layer": { "$ref": "#/$defs/owner_layer" },
+        "status": { "$ref": "#/$defs/capability_status" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence_ref" } },
+        "blockers": { "type": "array", "items": { "$ref": "#/$defs/runtime_blocker" } },
+        "assumptions": { "type": "array", "items": { "$ref": "#/$defs/assumption" } }
+      }
+    },
+    "backend_capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backend",
+        "capability",
+        "owner_layer",
+        "status",
+        "evidence",
+        "validation_targets"
+      ],
+      "properties": {
+        "backend": { "type": "string" },
+        "capability": { "type": "string" },
+        "owner_layer": { "const": "BackendAdapter" },
+        "status": { "$ref": "#/$defs/capability_status" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence_ref" } },
+        "blockers": { "type": "array", "items": { "$ref": "#/$defs/runtime_blocker" } },
+        "validation_targets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/validation_target" }
+        }
+      }
+    },
+    "capability_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status", "evidence"],
+      "properties": {
+        "name": { "type": "string" },
+        "status": { "$ref": "#/$defs/capability_status" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence_ref" } },
+        "blockers": { "type": "array", "items": { "$ref": "#/$defs/runtime_blocker" } }
+      }
+    },
+    "validation_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "scope", "required_evidence"],
+      "properties": {
+        "name": { "type": "string" },
+        "scope": { "type": "string" },
+        "required_evidence": { "type": "string" },
+        "blocking": { "type": "boolean" }
+      }
+    },
+    "runtime_blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "reason", "owner_layer", "evidence"],
+      "properties": {
+        "id": { "type": "string" },
+        "reason": { "type": "string" },
+        "owner_layer": { "$ref": "#/$defs/owner_layer" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence_ref" } },
+        "next_action": { "type": "string" }
+      }
+    },
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "uri"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "type": "string" },
+        "uri": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "risk", "validation_needed"],
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "risk": { "type": "string" },
+        "validation_needed": { "type": "string" }
+      }
+    },
+    "owner_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["team", "reviewer"],
+      "properties": {
+        "team": { "type": "string" },
+        "reviewer": { "type": "string" }
+      }
+    }
+  }
+}

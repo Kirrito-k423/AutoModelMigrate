@@ -42,6 +42,8 @@ taxonomy, and templates for future cases.
 
 The MiniMax M3 examples are case-specific. They demonstrate the generic
 contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
+They are a worked example; support claims still require validation and runtime
+evidence for the exact scope being claimed.
 
 ## Templates
 
@@ -60,6 +62,9 @@ contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
 
 ## How To Start A New Migration
 
+Use `docs/framework/next-case-guide.md` as the operator runbook before writing a
+new implementation plan.
+
 1. Start with `docs/framework/template-pack.md` to choose the lifecycle path and templates.
 2. Create a migration intake using `docs/framework/migration-intake-template.md`.
 3. Convert intake findings into owner-layer gaps with `docs/framework/gap-analysis-template.md` and `docs/framework/backlog-taxonomy.md`.
@@ -73,7 +78,7 @@ contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
 11. Capture performance baselines with `docs/framework/performance-profile-template.yaml`, `docs/framework/performance-profile-spec.md`, and `docs/framework/schemas/performance-profile.schema.json`.
 12. Start optimization only after correctness evidence exists, then use `docs/framework/optimization-report-template.md` and `docs/framework/optimization-loop.md` for profiler-backed before/after metrics.
 13. Close the migration with `docs/framework/migration-handoff-template.md`, including evidence inventory, lifecycle state, validation status, accuracy status, performance status, backend capability status, unresolved blockers, reusable deltas, and reviewer signoff.
-14. Use the MiniMax M3 examples as worked examples of support claims, runtime evidence, and blocked evidence handling, not as generic defaults.
+14. Use the MiniMax M3 examples and `docs/cases/veomni-minimax-m3/reference-case.md` as worked examples of support claims, runtime evidence, and blocked evidence handling, not as generic defaults.
 
 ## Phase 2 Contract Boundary
 
@@ -92,6 +97,7 @@ are captured.
 
 ## Related Case Evidence
 
+- `docs/cases/veomni-minimax-m3/reference-case.md`
 - `docs/cases/veomni-minimax-m3/intake.md`
 - `docs/cases/veomni-minimax-m3/assumptions.md`
 - `docs/cases/veomni-minimax-m3/gap-analysis.md`

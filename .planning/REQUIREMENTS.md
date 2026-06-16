@@ -31,7 +31,7 @@
 - [ ] **ACC-01**: GPU and NPU backend support is modeled through backend capability descriptors instead of hard-coded branches in model adapters.
 - [ ] **ACC-02**: Backend adapters expose supported precision modes, communication primitives, memory constraints, graph/compile constraints, and custom kernel availability.
 - [ ] **ACC-03**: The framework can mark a feature as unsupported, emulated, native, or optimized per backend.
-- [ ] **ACC-04**: Ascend NPU execution readiness is captured as a reusable runtime skill/playbook covering driver/DCMI, CANN toolkit, PTA/torch_npu, environment activation, and verification evidence.
+- [x] **ACC-04**: Ascend NPU execution readiness is captured as a reusable runtime skill/playbook covering driver/DCMI, CANN toolkit, PTA/torch_npu, environment activation, and verification evidence.
 
 ### First Case: VeOmni + MiniMax M3
 
@@ -42,7 +42,7 @@
 
 ### Repository Operations
 
-- [ ] **OPS-01**: The repository publication target is documented as GitHub owner `Kirrito-k423`, repository `AutoModelMigrate`, with remote, authentication, and push-readiness checks separated from implementation work.
+- [x] **OPS-01**: The repository publication target is documented as GitHub owner `Kirrito-k423`, repository `AutoModelMigrate`, with remote, authentication, and push-readiness checks separated from implementation work.
 
 ## v2 Requirements
 
@@ -79,12 +79,12 @@
 | ACC-01 | Phase 2 | Pending |
 | ACC-02 | Phase 2 | Pending |
 | ACC-03 | Phase 2 | Pending |
-| ACC-04 | Phase 1 | Pending |
+| ACC-04 | Phase 1 | Complete |
 | M3-01 | Phase 1 | Complete |
 | M3-02 | Phase 1 | Complete |
 | M3-03 | Phase 1 | Pending |
 | M3-04 | Phase 1, Phase 5 | Pending |
-| OPS-01 | Phase 1 | Pending |
+| OPS-01 | Phase 1 | Complete |
 
 **Coverage:**
 

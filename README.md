@@ -12,3 +12,7 @@ The first case is VeOmni + MiniMax M3. Start with:
 - `.planning/phases/01-veomni-minimax-m3-intake/01-01-PLAN.md`
 
 GSD Core is installed through the official Codex installer at `$HOME/.codex` (`@opengsd/gsd-core` v1.4.5). Node.js is installed in the user environment at `$HOME/.local/node`, with `node`, `npm`, and `npx` linked from `$HOME/.local/bin`.
+
+Repository publication target: `https://github.com/Kirrito-k423/AutoModelMigrate.git` (local `origin` is configured; authenticated push still depends on GitHub access).
+
+Ascend NPU runtime setup is tracked through the global Codex skill at `$HOME/.codex/skills/ascend-npu-runtime`. Use it to inspect and accumulate CANN, PTA/torch_npu, `npu-smi`/DCMI, and verification gate knowledge before running VeOmni/MiniMax M3 on NPU.

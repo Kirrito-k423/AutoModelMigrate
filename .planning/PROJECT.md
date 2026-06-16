@@ -23,6 +23,8 @@ Make cross-framework and cross-accelerator model migration repeatable, measurabl
 - [ ] Support GPU and NPU migration paths without hard-coding either accelerator into model logic.
 - [ ] Treat accuracy parity, numerical drift, throughput, memory, stability, and reproducibility as first-class artifacts.
 - [ ] Use VeOmni + MiniMax M3 as the first case study and derive framework abstractions from that case instead of designing only in the abstract.
+- [ ] Publish this repository under GitHub owner `Kirrito-k423` as `AutoModelMigrate`.
+- [ ] Maintain an Ascend NPU runtime skill/playbook that captures CANN, PTA/torch_npu, `npu-smi`/DCMI, environment activation, and verification evidence.
 
 ### Out of Scope
 
@@ -53,6 +55,8 @@ VeOmni is a useful first integration target because its public positioning empha
 | Start with VeOmni + MiniMax M3 as the first vertical slice | A hard first case prevents a too-generic framework that fails on real sparse/long-context/multimodal requirements | - Pending |
 | Define parity and performance artifacts before implementation | Prevents "it runs" from masquerading as "migration complete" | - Pending |
 | Treat NPU support as a first-class backend path in the design, not a later patch | User specifically needs NPU/GPU migration coverage | - Pending |
+| Publish the repository to `Kirrito-k423/AutoModelMigrate` | Keeps collaboration and future PR work anchored to the user's GitHub namespace | Local `origin` remote configured |
+| Capture Ascend runtime setup as `$ascend-npu-runtime` | NPU readiness depends on driver/DCMI, CANN, PTA/torch_npu, and verification gates, not just model code | Global Codex skill created under `$HOME/.codex/skills/ascend-npu-runtime` |
 
 ## Evolution
 
@@ -72,4 +76,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-16 after official GSD project initialization alignment*
+*Last updated: 2026-06-16 after adding GitHub publication and Ascend NPU runtime planning*

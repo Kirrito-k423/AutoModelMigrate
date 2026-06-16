@@ -31,6 +31,7 @@
 - [ ] **ACC-01**: GPU and NPU backend support is modeled through backend capability descriptors instead of hard-coded branches in model adapters.
 - [ ] **ACC-02**: Backend adapters expose supported precision modes, communication primitives, memory constraints, graph/compile constraints, and custom kernel availability.
 - [ ] **ACC-03**: The framework can mark a feature as unsupported, emulated, native, or optimized per backend.
+- [ ] **ACC-04**: Ascend NPU execution readiness is captured as a reusable runtime skill/playbook covering driver/DCMI, CANN toolkit, PTA/torch_npu, environment activation, and verification evidence.
 
 ### First Case: VeOmni + MiniMax M3
 
@@ -38,6 +39,10 @@
 - [ ] **M3-02**: The project maps VeOmni extension points relevant to model definition, recipes, data loading, distributed parallelism, checkpointing, and accelerator execution.
 - [ ] **M3-03**: The first implementation plan identifies the smallest useful MiniMax M3 vertical slice in VeOmni.
 - [ ] **M3-04**: The first case produces reusable framework artifacts, not only VeOmni-specific notes.
+
+### Repository Operations
+
+- [ ] **OPS-01**: The repository publication target is documented as GitHub owner `Kirrito-k423`, repository `AutoModelMigrate`, with remote, authentication, and push-readiness checks separated from implementation work.
 
 ## v2 Requirements
 
@@ -74,16 +79,18 @@
 | ACC-01 | Phase 2 | Pending |
 | ACC-02 | Phase 2 | Pending |
 | ACC-03 | Phase 2 | Pending |
+| ACC-04 | Phase 1 | Pending |
 | M3-01 | Phase 1 | Pending |
 | M3-02 | Phase 1 | Pending |
 | M3-03 | Phase 1 | Pending |
-| M3-04 | Phase 5 | Pending |
+| M3-04 | Phase 1, Phase 5 | Pending |
+| OPS-01 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 19 total
-- Mapped to phases: 19
+- v1 requirements: 21 total
+- Mapped to phases: 21
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-15*
-*Last updated: 2026-06-15 after GSD project initialization*
+*Last updated: 2026-06-16 after adding GitHub publication and Ascend NPU runtime requirements*

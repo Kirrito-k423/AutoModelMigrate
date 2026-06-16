@@ -17,6 +17,8 @@ The first concrete case is to onboard MiniMax M3 through the VeOmni framework pa
 - **Accelerators**: GPU and NPU should be modeled as backend capabilities with feature matrices, not as scattered conditional branches.
 - **Model complexity**: MiniMax M3 likely needs sparse-attention/MSA-specific handling, long-context memory planning, and multimodal input contracts.
 - **Adoption**: The framework must fit how infra teams already work: specs, manifests, adapters, reproducible recipes, profiling reports, and CI gates.
+- **Repository publishing**: The target GitHub repository is `https://github.com/Kirrito-k423/AutoModelMigrate.git`; local `origin` should point there, while authenticated push is a separate readiness gate.
+- **NPU runtime**: Ascend NPU setup knowledge is tracked through the global Codex skill `$HOME/.codex/skills/ascend-npu-runtime`; CANN, PTA/torch_npu, `npu-smi`/DCMI, and verification gates must be captured as evidence before claiming NPU execution support.
 
 <!-- GSD:project-end -->
 
@@ -52,6 +54,7 @@ The first concrete case is to onboard MiniMax M3 through the VeOmni framework pa
 | GSD Core | Spec-driven workflow | Project is initialized with `$gsd-new-project`; next step is `$gsd-plan-phase 1`. |
 | rg | Fast source search | Required for grounding adapter and symbol plans. |
 | Git | Trace planning and implementation | GSD commit flow expects a repo; this workspace should be initialized. |
+| Ascend NPU Runtime skill | CANN/PTA setup and NPU readiness checks | Global skill at `$HOME/.codex/skills/ascend-npu-runtime`; use before VeOmni/MiniMax M3 NPU execution. |
 
 ## Alternatives Considered
 

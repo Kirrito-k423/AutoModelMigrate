@@ -108,10 +108,13 @@ Plans:
   3. The next migration can start from documented intake, gap, validation, and optimization templates.
 
 **Plans**: 2 plans
-
 Plans:
+**Wave 1**
 
 - [ ] 05-01: Package reusable migration templates.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 05-02: Produce next-case handoff guide.
 
 ## Progress

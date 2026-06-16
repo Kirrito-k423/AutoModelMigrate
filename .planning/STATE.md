@@ -57,6 +57,7 @@ Recent decisions affecting current work:
 - GPU and NPU support will be modeled through backend capabilities.
 - Repository publication target is `https://github.com/Kirrito-k423/AutoModelMigrate.git`; local `origin` is configured.
 - Ascend NPU runtime readiness is tracked through `$HOME/.codex/skills/ascend-npu-runtime`.
+- `gh` 2.94.0 is installed under `$HOME/.local`; GitHub authentication is still pending.
 
 ### Pending Todos
 
@@ -66,7 +67,8 @@ None yet.
 
 - MiniMax M3 details are very recent; implementation planning must keep source links and assumptions explicit.
 - This project is already initialized; rerunning `$gsd-new-project` should be treated as alignment/update work, while `$gsd-progress` shows the official current state.
-- Current Ascend host is not NPU-ready yet: `npu-smi info` fails with DCMI `ret=-8005`, CANN toolkit is missing, and `torch`/`torch_npu` are not installed.
+- Current Ascend host is not NPU-ready yet: normal-user `npu-smi info` fails with DCMI `ret=-8005`, the user reports root can see `npu-smi info`, CANN toolkit is missing, and `torch`/`torch_npu` are not installed.
+- CANN must be downloaded from the official HiAscend community page after version-matrix confirmation; avoid speculative downloads because the packages are large.
 
 ## Deferred Items
 

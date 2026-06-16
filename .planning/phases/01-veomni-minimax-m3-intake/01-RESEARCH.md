@@ -47,7 +47,7 @@ MiniMax M3 is a very recent model release dated 2026-06-01. Public MiniMax mater
 
 **Primary recommendation:** Make Phase 1 an intake/gap phase, not an implementation phase. The first vertical slice should likely prove M3 config/checkpoint/tokenizer/model-construction parity and a tiny forward or inference path in VeOmni before attempting distributed training or NPU optimization.
 
-**NPU recommendation:** Treat Ascend NPU setup as a separate readiness lane in Phase 1. The current machine has partial driver artifacts but is not ready for framework execution: `npu-smi info` fails at DCMI initialization, CANN toolkit is not present under `/usr/local/Ascend/ascend-toolkit`, and `torch`/`torch_npu` are not installed. This should block NPU smoke execution until driver/DCMI, CANN, and PTA gates pass.
+**NPU recommendation:** Treat Ascend NPU setup as a separate readiness lane in Phase 1. The current machine has partial driver artifacts but is not ready for framework execution: normal-user `npu-smi info` fails at DCMI initialization, the user reports `npu-smi info` is visible only as root, CANN toolkit is not present under `/usr/local/Ascend/ascend-toolkit`, and `torch`/`torch_npu` are not installed. This should block NPU smoke execution until root-level driver/DCMI evidence, CANN, and PTA gates pass.
 </research_summary>
 
 <standard_stack>
@@ -80,13 +80,14 @@ MiniMax M3 is a very recent model release dated 2026-06-01. Public MiniMax mater
 | Driver path | `/usr/local/Ascend/driver` exists | Driver artifacts are present. |
 | Driver version | `25.5.2`; `ascendhal_version=7.35.23`; compatible firmware `[7.0.0,8.9.9]` | Record as the lower-layer version constraint. |
 | `npu-smi` path | `/usr/local/sbin/npu-smi` | CLI exists. |
-| `npu-smi info` | Fails: `dcmi module initialize failed. ret is -8005` | Driver/DCMI/device layer is not usable yet. |
-| CANN toolkit | `/usr/local/Ascend/ascend-toolkit` missing; `set_env.sh` missing | CANN toolkit gate is not satisfied. |
+| `npu-smi info` | Normal user fails: `dcmi module initialize failed. ret is -8005`; user reports root can see device info | Current blocker is permission/root access evidence, not proven driver corruption. |
+| CANN toolkit | `/usr/local/Ascend/ascend-toolkit` missing; `set_env.sh` missing | CANN toolkit gate is not satisfied; download from HiAscend official community page only after version and traffic budget are confirmed. |
 | Environment variables | `ASCEND_HOME_PATH`, `ASCEND_TOOLKIT_HOME`, `LD_LIBRARY_PATH`, `PYTHONPATH` empty | Runtime activation has not happened in this shell. |
 | Python stack | Python 3.10.12 present; `torch` and `torch_npu` missing | PTA/torch_npu gate is not satisfied. |
 | Skill created | `$HOME/.codex/skills/ascend-npu-runtime` | Reusable NPU setup/verification workflow exists for future sessions. |
+| GitHub CLI | `gh` 2.94.0 installed in `$HOME/.local` | Publishing tool exists; `gh auth login` is still required. |
 
-Readiness classification from the skill inspector: `driver-broken`.
+Readiness classification from the skill inspector: `driver-permission-or-root-required`.
 </current_npu_host>
 
 <ascend_runtime_stack>
@@ -94,8 +95,8 @@ Readiness classification from the skill inspector: `driver-broken`.
 
 The install and verification path should be layered:
 
-1. Driver/DCMI: `npu-smi info` must succeed before Python work is useful.
-2. CANN toolkit/kernels: install versions compatible with the driver branch and source `set_env.sh`.
+1. Driver/DCMI: `npu-smi info` must succeed through the host's required privilege path before Python work is useful; this host requires root for visible output.
+2. CANN toolkit/kernels: install versions compatible with the driver branch from the official HiAscend community download center. Packages are large; confirm exact version and traffic budget before downloading.
 3. PyTorch + PTA/torch_npu: install only from a documented PyTorch/CANN/torch_npu compatibility matrix.
 4. Framework smoke: run the smallest VeOmni recipe only after gates 1-3 pass.
 5. Model smoke: run MiniMax M3 construction/forward smoke only after the framework can see the NPU.
@@ -213,7 +214,7 @@ src/
 - Are MiniMax M3 open weights and full architecture implementation available in the public repository yet?
 - Is the first VeOmni slice intended to be pre-training, post-training, fine-tuning, or inference enablement?
 - Which NPU target matters first: Ascend, another vendor, or an internal backend?
-- For the current Ascend host, is the DCMI failure caused by host driver state, permissions, container pass-through, or unsupported hardware access in this session?
+- For the current Ascend host, what is the approved way to collect root-level `npu-smi info` evidence without weakening security practices?
 - Which CANN/PTA matrix should be pinned for VeOmni: latest stable Ascend PyTorch, a framework-provided image, or an internal platform baseline?
 - What accuracy baseline should MiniMax M3 parity compare against: official outputs, HF implementation, vendor inference stack, or existing internal implementation?
 - What is the minimum acceptable long-context length for the first slice: tiny smoke, 32K, 128K, or full 1M?
@@ -229,6 +230,7 @@ src/
 - NVIDIA MiniMax M3 deployment article: https://developer.nvidia.com/blog/deploy-long-context-reasoning-and-agentic-workflows-with-minimax-m3-on-nvidia-accelerated-infrastructure/
 - vLLM MiniMax M3 support discussion: https://discuss.vllm.ai/t/minimax-m3-support/2689
 - Ascend PyTorch install guide: https://ascend.github.io/docs/sources/pytorch/install.html
+- HiAscend CANN community download center: https://www.hiascend.com/developer/download/community/result
 - Ascend PyTorch adapter repository: https://github.com/Ascend/pytorch
 - vLLM Ascend install guide: https://docs.vllm.ai/projects/ascend/en/v0.7.1/installation.html
 - Ascend PyTorch model porting guide: https://gitee.com/ascend/pytorch/blob/master/docs/en/PyTorch%20Network%20Model%20Porting%20and%20Training%20Guide/PyTorch%20Network%20Model%20Porting%20and%20Training%20Guide.md

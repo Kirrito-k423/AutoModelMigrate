@@ -17,8 +17,8 @@ The first concrete case is to onboard MiniMax M3 through the VeOmni framework pa
 - **Accelerators**: GPU and NPU should be modeled as backend capabilities with feature matrices, not as scattered conditional branches.
 - **Model complexity**: MiniMax M3 likely needs sparse-attention/MSA-specific handling, long-context memory planning, and multimodal input contracts.
 - **Adoption**: The framework must fit how infra teams already work: specs, manifests, adapters, reproducible recipes, profiling reports, and CI gates.
-- **Repository publishing**: The target GitHub repository is `https://github.com/Kirrito-k423/AutoModelMigrate.git`; local `origin` should point there, while authenticated push is a separate readiness gate.
-- **NPU runtime**: Ascend NPU setup knowledge is tracked through the global Codex skill `$HOME/.codex/skills/ascend-npu-runtime`; CANN, PTA/torch_npu, `npu-smi`/DCMI, and verification gates must be captured as evidence before claiming NPU execution support.
+- **Repository publishing**: The target GitHub repository is `https://github.com/Kirrito-k423/AutoModelMigrate.git`; local `origin` should point there. `gh` is installed under `$HOME/.local`, but authentication remains a separate readiness gate.
+- **NPU runtime**: Ascend NPU setup knowledge is tracked through the global Codex skill `$HOME/.codex/skills/ascend-npu-runtime`; CANN, PTA/torch_npu, root-only `npu-smi`/DCMI behavior, and verification gates must be captured as evidence before claiming NPU execution support. CANN packages must come from the official HiAscend community download page and are large, so confirm version and traffic budget first.
 
 <!-- GSD:project-end -->
 
@@ -55,6 +55,7 @@ The first concrete case is to onboard MiniMax M3 through the VeOmni framework pa
 | rg | Fast source search | Required for grounding adapter and symbol plans. |
 | Git | Trace planning and implementation | GSD commit flow expects a repo; this workspace should be initialized. |
 | Ascend NPU Runtime skill | CANN/PTA setup and NPU readiness checks | Global skill at `$HOME/.codex/skills/ascend-npu-runtime`; use before VeOmni/MiniMax M3 NPU execution. |
+| GitHub CLI | Repository publishing and GitHub auth workflows | `gh` 2.94.0 installed in `$HOME/.local`; run `gh auth login` before pushing. |
 
 ## Alternatives Considered
 

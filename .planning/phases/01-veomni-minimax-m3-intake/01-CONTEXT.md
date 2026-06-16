@@ -24,7 +24,7 @@ This phase does not implement VeOmni support yet. It establishes the first case 
 
 ### Operations and runtime direction
 - **D-07:** Publish this repository under GitHub owner `Kirrito-k423` with repository name `AutoModelMigrate`; the local `origin` remote should target `https://github.com/Kirrito-k423/AutoModelMigrate.git`.
-- **D-08:** Treat Ascend NPU runtime readiness as a reusable project capability: CANN, PTA/torch_npu, `npu-smi`/DCMI, environment activation, and verification gates must be captured in a Codex skill and reflected in project evidence.
+- **D-08:** Treat Ascend NPU runtime readiness as a reusable project capability: CANN, PTA/torch_npu, root-only `npu-smi`/DCMI behavior, environment activation, and verification gates must be captured in a Codex skill and reflected in project evidence.
 
 ### Claude's Discretion
 - Exact names of framework artifacts and schemas can evolve during Phase 2.
@@ -38,8 +38,10 @@ This phase does not implement VeOmni support yet. It establishes the first case 
 - The framework should cover "different framework migration" and "NPU/GPU migration" as one operating model.
 - The workflow should naturally continue into performance optimization and accuracy validation after feature migration.
 - MiniMax M3 through VeOmni is the first case, not a side example.
-- Current execution environment is an Ascend NPU host. Initial scan on 2026-06-16 found `/usr/local/Ascend/driver` version `25.5.2`, but `npu-smi info` fails with `dcmi module initialize failed. ret is -8005`; `/usr/local/Ascend/ascend-toolkit` and Python `torch`/`torch_npu` are absent.
+- Current execution environment is an Ascend NPU host. Initial scan on 2026-06-16 found `/usr/local/Ascend/driver` version `25.5.2`; normal-user `npu-smi info` fails with `dcmi module initialize failed. ret is -8005`, and the user reports `npu-smi info` is visible only after switching to root. `/usr/local/Ascend/ascend-toolkit` and Python `torch`/`torch_npu` are absent.
 - The global Codex skill `ascend-npu-runtime` exists at `$HOME/.codex/skills/ascend-npu-runtime` and should be used to accumulate CANN/PTA/torch_npu setup checks.
+- CANN packages must be downloaded from the HiAscend community download center (`https://www.hiascend.com/developer/download/community/result`) after confirming the version matrix; packages are large, so avoid speculative downloads.
+- GitHub CLI `gh` 2.94.0 is installed under `$HOME/.local`; GitHub authentication is still required before pushing.
 </specifics>
 
 <canonical_refs>
@@ -56,6 +58,7 @@ This phase does not implement VeOmni support yet. It establishes the first case 
 - `https://www.minimax.io/blog/minimax-m3` - MiniMax M3 release details.
 - `https://github.com/MiniMax-AI/MiniMax-M3` - MiniMax M3 public repository if available.
 - `https://ascend.github.io/docs/sources/pytorch/install.html` - Ascend PyTorch/CANN installation guidance.
+- `https://www.hiascend.com/developer/download/community/result` - Official HiAscend community download center for CANN packages.
 - `https://github.com/Ascend/pytorch` - Ascend PyTorch adapter (`torch_npu`) repository.
 - `https://docs.vllm.ai/projects/ascend/en/v0.7.1/installation.html` - Example NPU runtime/container verification guidance.
 </canonical_refs>

@@ -56,7 +56,8 @@ VeOmni is a useful first integration target because its public positioning empha
 | Define parity and performance artifacts before implementation | Prevents "it runs" from masquerading as "migration complete" | - Pending |
 | Treat NPU support as a first-class backend path in the design, not a later patch | User specifically needs NPU/GPU migration coverage | - Pending |
 | Publish the repository to `Kirrito-k423/AutoModelMigrate` | Keeps collaboration and future PR work anchored to the user's GitHub namespace | Local `origin` remote configured |
-| Capture Ascend runtime setup as `$ascend-npu-runtime` | NPU readiness depends on driver/DCMI, CANN, PTA/torch_npu, and verification gates, not just model code | Global Codex skill created under `$HOME/.codex/skills/ascend-npu-runtime` |
+| Capture Ascend runtime setup as `$ascend-npu-runtime` | NPU readiness depends on driver/DCMI, CANN, PTA/torch_npu, and verification gates, not just model code | Global Codex skill created under `$HOME/.codex/skills/ascend-npu-runtime`; current host requires root for `npu-smi info` |
+| Install GitHub CLI locally | Publishing to GitHub should not depend on missing system packages or sudo | `gh` 2.94.0 installed under `$HOME/.local`, authentication still pending |
 
 ## Evolution
 
@@ -76,4 +77,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-16 after adding GitHub publication and Ascend NPU runtime planning*
+*Last updated: 2026-06-16 after adding root-only npu-smi, HiAscend CANN download, and gh install notes*

@@ -13,6 +13,6 @@ The first case is VeOmni + MiniMax M3. Start with:
 
 GSD Core is installed through the official Codex installer at `$HOME/.codex` (`@opengsd/gsd-core` v1.4.5). Node.js is installed in the user environment at `$HOME/.local/node`, with `node`, `npm`, and `npx` linked from `$HOME/.local/bin`.
 
-Repository publication target: `https://github.com/Kirrito-k423/AutoModelMigrate.git` (local `origin` is configured; authenticated push still depends on GitHub access).
+Repository publication target: `https://github.com/Kirrito-k423/AutoModelMigrate.git` (local `origin` is configured; `gh` 2.94.0 is installed under `$HOME/.local`, and authenticated push still depends on `gh auth login` or equivalent GitHub credentials).
 
-Ascend NPU runtime setup is tracked through the global Codex skill at `$HOME/.codex/skills/ascend-npu-runtime`. Use it to inspect and accumulate CANN, PTA/torch_npu, `npu-smi`/DCMI, and verification gate knowledge before running VeOmni/MiniMax M3 on NPU.
+Ascend NPU runtime setup is tracked through the global Codex skill at `$HOME/.codex/skills/ascend-npu-runtime`. Use it to inspect and accumulate CANN, PTA/torch_npu, root-only `npu-smi`/DCMI behavior, and verification gate knowledge before running VeOmni/MiniMax M3 on NPU. CANN should be downloaded from the official HiAscend community download page only after confirming the version matrix and download budget.

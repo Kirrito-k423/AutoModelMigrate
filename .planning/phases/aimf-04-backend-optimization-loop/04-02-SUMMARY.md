@@ -13,7 +13,7 @@ status: completed
 
 | Task | Commit | Notes |
 |------|--------|-------|
-| Tasks 1-4 | pending | All changed files were prepared for a single commit in this run. Final commit hash is recorded in the turn summary after commit. |
+| Tasks 1-4 | `64cfd15` | All phase files were committed together in this run. Unrelated Phase 3 and roadmap edits were left untouched. |
 
 ## Files Created Or Modified
 

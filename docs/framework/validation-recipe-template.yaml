@@ -1,0 +1,89 @@
+# Generic validation recipe template.
+# Canonical contract: docs/framework/correctness-validation-harness.md
+# Schema: docs/framework/schemas/validation-recipe.schema.json
+# Worked example: docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml
+
+recipe_id: "<migration-id>-validation"
+migration_id: "<migration-id>"
+version: "0.1.0"
+
+scope:
+  stage: "<lifecycle stage or first slice>"
+  description: "<what this validation recipe proves>"
+  backend_scope:
+    - "<backend or reference path>"
+  non_goals:
+    - "<out-of-scope path or capability>"
+
+baseline:
+  name: "<reference system>"
+  kind: "<reference-model|source-framework|artifact|service>"
+  version_or_revision: "<version, commit, tag, or artifact revision>"
+  uri: "<reference URI>"
+  notes: "<pinning, access, or reproducibility notes>"
+
+candidate:
+  name: "<target system>"
+  kind: "<target-framework-adapter|runtime|recipe>"
+  version_or_revision: "<version, commit, tag, or artifact revision>"
+  uri: "<candidate URI>"
+  notes: "<candidate setup notes>"
+
+environment:
+  backend: "<backend or reference path>"
+  dtype: "<dtype policy>"
+  hardware: "<hardware class or not applicable>"
+  software:
+    - "<package, framework, or runtime version>"
+  seed_policy: "<deterministic seed policy or nondeterminism note>"
+
+fixtures:
+  - id: "<fixture-id>"
+    modality: "<text|image|video|audio|tabular|other>"
+    path_or_inline: "<fixture path or inline input>"
+    expected_evidence: "<shape, dtype, fields, output, or invariant evidence>"
+    notes: "<fixture notes>"
+
+gates:
+  - id: "failed_correctness"
+    type: "forward_parity"
+    owner_layer: "ValidationSuite"
+    blocking: true
+    lifecycle_transition: "Correctness -> Scale"
+    command: "<baseline versus candidate parity command>"
+    fixture_ids:
+      - "<fixture-id>"
+    expected_evidence: "<aligned outputs, tolerance, drift summary, rerun command>"
+    status: "pending"
+    reviewer: "<reviewer>"
+    evidence: []
+  - id: "blocked_runtime"
+    type: "backend_runtime"
+    owner_layer: "BackendAdapter"
+    blocking: true
+    lifecycle_transition: "<backend support claim>"
+    command: "<runtime readiness command>"
+    fixture_ids: []
+    expected_evidence: "<device, runtime, tensor smoke, framework smoke, and logs>"
+    status: "blocked"
+    blocked_by: "<runtime prerequisite or access blocker>"
+    reviewer: "<reviewer>"
+    evidence: []
+
+results:
+  - gate_id: "failed_correctness"
+    status: "pending"
+    summary: "<pending, passed, or failed correctness summary>"
+    blocks_transition: true
+    evidence: []
+  - gate_id: "blocked_runtime"
+    status: "blocked"
+    summary: "<blocked runtime summary, scoped to the affected backend>"
+    blocks_transition: true
+    evidence: []
+
+evidence:
+  - id: "<validation-recipe-evidence-id>"
+    kind: "<recipe|log|report|artifact>"
+    uri: "<evidence URI>"
+    note: "<evidence note>"

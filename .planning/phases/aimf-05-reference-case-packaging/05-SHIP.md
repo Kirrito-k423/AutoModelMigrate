@@ -2,7 +2,7 @@
 phase: aimf-05-reference-case-packaging
 status: blocked
 branch: codex/phase-5-reference-case-packaging
-base_branch: codex/phase-3-correctness-accuracy-harness
+base_branch: master
 head_sha: "see origin/codex/phase-5-reference-case-packaging"
 pushed: true
 pr_created: false
@@ -22,14 +22,14 @@ blocked by the current GitHub token's branch/ref permissions.
 |-------|-------|
 | Repository | `Kirrito-k423/AutoModelMigrate` |
 | Branch | `codex/phase-5-reference-case-packaging` |
-| Base | `codex/phase-3-correctness-accuracy-harness` |
+| Base | `master` |
 | Head SHA | Use `git rev-parse origin/codex/phase-5-reference-case-packaging` for the latest pushed commit. |
 | Commits over base | Use `git log --oneline origin/codex/phase-3-correctness-accuracy-harness..origin/codex/phase-5-reference-case-packaging` for the current count. |
 | Push status | pushed to `origin/codex/phase-5-reference-case-packaging` |
 
 Compare URL:
 
-`https://github.com/Kirrito-k423/AutoModelMigrate/compare/codex/phase-3-correctness-accuracy-harness...codex/phase-5-reference-case-packaging?expand=1`
+`https://github.com/Kirrito-k423/AutoModelMigrate/compare/master...codex/phase-5-reference-case-packaging?expand=1`
 
 ## PR Creation Attempts
 
@@ -37,8 +37,15 @@ Compare URL:
 |--------|--------|
 | GitHub connector `_create_pull_request` | Failed with GitHub API 404 `Not Found`. |
 | `gh pr create --draft` | Failed with GraphQL `Resource not accessible by personal access token (repository.defaultBranchRef)`. |
-| `gh api repos/Kirrito-k423/AutoModelMigrate/pulls` | Failed with HTTP 422 `not all refs are readable`. |
+| `gh api repos/Kirrito-k423/AutoModelMigrate/pulls` using stacked base | Failed with HTTP 422 `not all refs are readable`. |
+| `gh api repos/Kirrito-k423/AutoModelMigrate/pulls` using `base=master` | Failed with HTTP 422 `not all refs are readable`. |
+| `gh api repos/Kirrito-k423/AutoModelMigrate/pulls` using `head=Kirrito-k423:codex/phase-5-reference-case-packaging` | Failed with HTTP 422 `not all refs are readable`. |
 | `gh api repos/Kirrito-k423/AutoModelMigrate/branches/...` | Failed with HTTP 403 `Resource not accessible by personal access token`. |
+| GitHub connector `_create_pull_request` using `base=master` | Failed with GitHub API 404 `Not Found`. |
+
+PR #1 has since been merged into `master`, so the intended PR base is now
+`master`. The blocker remains the same: the current API token can push over SSH
+and view/list some PR metadata, but cannot read refs well enough to create a PR.
 
 ## Validation Before Ship
 
@@ -86,7 +93,6 @@ gate_status: skill=0, fallback=0, exempt=0, missing=0
 
 ## Next Action
 
-Refresh the GitHub token or create the draft PR manually from the compare URL.
-The intended target is a stacked PR from
-`codex/phase-5-reference-case-packaging` into
-`codex/phase-3-correctness-accuracy-harness`.
+Refresh the GitHub token with repository contents/ref read plus pull-request
+write permission, or create the draft PR manually from the compare URL. The
+intended target is `codex/phase-5-reference-case-packaging` into `master`.

@@ -42,6 +42,7 @@ This phase does not implement VeOmni support yet. It establishes the first case 
 - The global Codex skill `ascend-npu-runtime` exists at `$HOME/.codex/skills/ascend-npu-runtime` and should be used to accumulate CANN/PTA/torch_npu setup checks.
 - CANN packages must be downloaded from the HiAscend community download center (`https://www.hiascend.com/developer/download/community/result`) after confirming the version matrix; packages are large, so avoid speculative downloads.
 - GitHub CLI `gh` 2.94.0 is installed under `$HOME/.local`; GitHub authentication is still required before pushing.
+- VeOmni already has an Ascend A2/910B Docker guide at `docs/hardware_support/AscendDockerUsage/build_a2_docker.md`; use it as the first Docker reference for this NPU environment.
 </specifics>
 
 <canonical_refs>
@@ -59,6 +60,7 @@ This phase does not implement VeOmni support yet. It establishes the first case 
 - `https://github.com/MiniMax-AI/MiniMax-M3` - MiniMax M3 public repository if available.
 - `https://ascend.github.io/docs/sources/pytorch/install.html` - Ascend PyTorch/CANN installation guidance.
 - `https://www.hiascend.com/developer/download/community/result` - Official HiAscend community download center for CANN packages.
+- `https://github.com/ByteDance-Seed/VeOmni/blob/main/docs/hardware_support/AscendDockerUsage/build_a2_docker.md` - VeOmni Ascend A2 Docker image build and usage guide.
 - `https://github.com/Ascend/pytorch` - Ascend PyTorch adapter (`torch_npu`) repository.
 - `https://docs.vllm.ai/projects/ascend/en/v0.7.1/installation.html` - Example NPU runtime/container verification guidance.
 </canonical_refs>

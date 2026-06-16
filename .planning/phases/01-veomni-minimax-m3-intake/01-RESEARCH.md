@@ -86,6 +86,7 @@ MiniMax M3 is a very recent model release dated 2026-06-01. Public MiniMax mater
 | Python stack | Python 3.10.12 present; `torch` and `torch_npu` missing | PTA/torch_npu gate is not satisfied. |
 | Skill created | `$HOME/.codex/skills/ascend-npu-runtime` | Reusable NPU setup/verification workflow exists for future sessions. |
 | GitHub CLI | `gh` 2.94.0 installed in `$HOME/.local` | Publishing tool exists; `gh auth login` is still required. |
+| VeOmni A2 Docker guide | `docs/hardware_support/AscendDockerUsage/build_a2_docker.md` in upstream VeOmni | Use as primary Docker recipe for Ascend A2/910B instead of hand-rolling. |
 
 Readiness classification from the skill inspector: `driver-permission-or-root-required`.
 </current_npu_host>
@@ -102,6 +103,8 @@ The install and verification path should be layered:
 5. Model smoke: run MiniMax M3 construction/forward smoke only after the framework can see the NPU.
 
 Official Ascend PyTorch guidance documents CANN toolkit, firmware/driver, and environment variables as prerequisites for NPU execution. The Ascend PyTorch adapter repository also treats CANN as a prerequisite before `torch_npu`. vLLM Ascend's install guide gives practical container pass-through patterns for `/dev/davinci*`, `npu-smi`, and driver library mounts; use those as a pattern when this project runs inside Docker.
+
+VeOmni's upstream A2 Docker guide is the project-specific Docker reference. It uses Huawei's CANN 9.0.0 910B Ubuntu 22.04 Python 3.11 base image, separate Dockerfiles for x86 and ARM64, x86 `uv` dependency flow, ARM64 `pip install -e .[npu_aarch64]`, Ascend device pass-through, driver library/tool mounts, Ascend add-ons mount, optional proxy settings, and `--shm-size=64G` for larger models.
 </ascend_runtime_stack>
 
 <architecture_patterns>
@@ -231,6 +234,7 @@ src/
 - vLLM MiniMax M3 support discussion: https://discuss.vllm.ai/t/minimax-m3-support/2689
 - Ascend PyTorch install guide: https://ascend.github.io/docs/sources/pytorch/install.html
 - HiAscend CANN community download center: https://www.hiascend.com/developer/download/community/result
+- VeOmni Ascend A2 Docker guide: https://github.com/ByteDance-Seed/VeOmni/blob/main/docs/hardware_support/AscendDockerUsage/build_a2_docker.md
 - Ascend PyTorch adapter repository: https://github.com/Ascend/pytorch
 - vLLM Ascend install guide: https://docs.vllm.ai/projects/ascend/en/v0.7.1/installation.html
 - Ascend PyTorch model porting guide: https://gitee.com/ascend/pytorch/blob/master/docs/en/PyTorch%20Network%20Model%20Porting%20and%20Training%20Guide/PyTorch%20Network%20Model%20Porting%20and%20Training%20Guide.md

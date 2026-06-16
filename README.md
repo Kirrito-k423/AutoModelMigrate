@@ -16,3 +16,5 @@ GSD Core is installed through the official Codex installer at `$HOME/.codex` (`@
 Repository publication target: `https://github.com/Kirrito-k423/AutoModelMigrate.git` (local `origin` is configured; `gh` 2.94.0 is installed under `$HOME/.local`, and authenticated push still depends on `gh auth login` or equivalent GitHub credentials).
 
 Ascend NPU runtime setup is tracked through the global Codex skill at `$HOME/.codex/skills/ascend-npu-runtime`. Use it to inspect and accumulate CANN, PTA/torch_npu, root-only `npu-smi`/DCMI behavior, and verification gate knowledge before running VeOmni/MiniMax M3 on NPU. CANN should be downloaded from the official HiAscend community download page only after confirming the version matrix and download budget.
+
+For Ascend A2/910B Docker setup, start from VeOmni's upstream guide: `docs/hardware_support/AscendDockerUsage/build_a2_docker.md` in `ByteDance-Seed/VeOmni`.

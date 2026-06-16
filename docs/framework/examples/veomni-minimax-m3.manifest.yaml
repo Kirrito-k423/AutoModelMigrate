@@ -1,0 +1,303 @@
+migration:
+  id: veomni-minimax-m3
+  name: MiniMax M3 support through VeOmni
+  status: Intake
+  first_slice: MiniMax M3 reference artifact intake to VeOmni tiny text smoke
+  non_goals:
+    - Full 428B-class checkpoint load
+    - Full 1M context execution
+    - Image/video forward pass
+    - Ascend NPU execution before runtime gates pass
+    - Kernel optimization before correctness
+  assumptions:
+    - id: m3-artifact-revision
+      text: Exact Hugging Face revision and file hashes are not pinned yet.
+      risk: Public artifacts may change while MiniMax M3 is newly released.
+      validation_needed: Pin revision, config hash, tokenizer hash, and checkpoint index metadata.
+
+source:
+  name: MiniMaxAI/MiniMax-M3
+  kind: huggingface-model-artifacts
+  version_or_revision: pending-pin
+  evidence:
+    - id: minimax-m3-hf
+      kind: external-url
+      uri: https://huggingface.co/MiniMaxAI/MiniMax-M3
+      note: Public MiniMax M3 artifact source.
+    - id: minimax-m3-github
+      kind: external-url
+      uri: https://github.com/MiniMax-AI/MiniMax-M3
+      note: Public MiniMax M3 repository.
+
+target:
+  name: VeOmni
+  kind: training-framework
+  version_or_revision: pending-source-pin
+  evidence:
+    - id: veomni-github
+      kind: external-url
+      uri: https://github.com/ByteDance-Seed/VeOmni
+      note: Target framework repository.
+    - id: veomni-docs
+      kind: external-url
+      uri: https://veomni.readthedocs.io/en/latest/
+      note: Target framework documentation.
+
+model_spec:
+  owner_layer: ModelSpec
+  model_family: MiniMax M3
+  architecture: native multimodal mixture-of-experts model with MiniMax Sparse Attention
+  modalities:
+    - text
+    - image
+    - video
+  attention:
+    name: MiniMax Sparse Attention
+    status: unsupported
+    evidence:
+      - id: m3-assumptions-msa
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/assumptions.md
+        note: MSA must be represented as a named model/backend capability.
+    blockers:
+      - id: msa-operator-evidence-missing
+        reason: Official MSA implementation and backend kernel availability are not inspected.
+        owner_layer: BackendAdapter
+        evidence:
+          - id: m3-gap-analysis-msa
+            kind: project-doc
+            uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+        next_action: Identify MSA implementation, fallback behavior, and GPU/NPU kernel evidence.
+  context:
+    advertised_limit: 1M tokens
+    validation_targets:
+      - name: tiny
+        scope: config/tokenizer/processor and tiny text smoke
+        required_evidence: fixture output shape, dtype, and tokenizer/processor parity
+        blocking: true
+      - name: 32K
+        scope: medium context feasibility
+        required_evidence: memory and correctness run logs
+        blocking: false
+      - name: 128K
+        scope: long-context feasibility
+        required_evidence: memory and performance feasibility report
+        blocking: false
+      - name: 1M
+        scope: advertised full context
+        required_evidence: correctness plus performance report on declared hardware
+        blocking: false
+  precision_policy:
+    - BF16
+    - F32
+  artifact_revision:
+    id: m3-revision-pin
+    kind: pending-artifact-hash
+    uri: https://huggingface.co/MiniMaxAI/MiniMax-M3
+    note: Must be replaced with exact revision and hashes before coding.
+  checkpoint:
+    name: Hugging Face checkpoint index and shards
+    status: unsupported
+    evidence:
+      - id: m3-checkpoint-gap
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+        note: Checkpoint shard/index layout has not been inspected.
+  tokenizer_processor:
+    name: MiniMax M3 tokenizer and AutoProcessor contract
+    status: unsupported
+    evidence:
+      - id: m3-tokenizer-gap
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+        note: Tokenizer class, special tokens, chat template, and media placeholders need inspection.
+  assumptions:
+    - id: m3-remote-code-policy
+      text: First slice may wrap official Transformers remote code or build a native VeOmni skeleton.
+      risk: Adapter boundary changes depending on VeOmni's extension points.
+      validation_needed: Inspect VeOmni model registration and builder hooks.
+  evidence:
+    - id: case-intake
+      kind: project-doc
+      uri: docs/cases/veomni-minimax-m3/intake.md
+      note: First-case migration intake.
+
+framework_adapter:
+  owner_layer: FrameworkAdapter
+  status: unsupported
+  evidence:
+    - id: veomni-extension-gap
+      kind: project-doc
+      uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+      note: Exact VeOmni registration and builder path is unknown.
+  blockers:
+    - id: veomni-registration-unknown
+      reason: Model registry, config parsing, and tokenizer/processor builder hooks need source inspection.
+      owner_layer: FrameworkAdapter
+      evidence:
+        - id: veomni-gap-analysis
+          kind: project-doc
+          uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+      next_action: Inspect VeOmni source and document the integration point.
+
+backend_matrix:
+  - backend: GPU
+    capability: dense attention reference path
+    owner_layer: BackendAdapter
+    status: native
+    evidence:
+      - id: gpu-reference-assumption
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/intake.md
+        note: GPU reference path is expected through PyTorch/reference semantics.
+    validation_targets:
+      - name: tiny-forward
+        scope: reference tiny text smoke
+        required_evidence: forward or generation invariant
+        blocking: true
+  - backend: GPU
+    capability: MiniMax Sparse Attention
+    owner_layer: BackendAdapter
+    status: unsupported
+    evidence:
+      - id: msa-gap
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+        note: MSA backend support is unknown.
+    validation_targets:
+      - name: msa-evidence
+        scope: identify native, emulated, or optimized path
+        required_evidence: implementation source and parity/performance caveat
+        blocking: true
+  - backend: Ascend NPU
+    capability: device visibility and runtime stack
+    owner_layer: BackendAdapter
+    status: unsupported
+    evidence:
+      - id: npu-runtime-evidence
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/npu-runtime-evidence.md
+        note: Current host is blocked before framework smoke.
+    blockers:
+      - id: driver-permission-or-root-required
+        reason: Normal-user npu-smi info fails; user reports root is required.
+        owner_layer: BackendAdapter
+        evidence:
+          - id: ascend-runbook
+            kind: project-doc
+            uri: docs/ops/ascend-npu-runtime.md
+        next_action: Capture root-approved npu-smi info output.
+      - id: cann-toolkit-missing
+        reason: CANN toolkit and set_env.sh are missing.
+        owner_layer: BackendAdapter
+        evidence:
+          - id: hiascend-download
+            kind: external-url
+            uri: https://www.hiascend.com/developer/download/community/result
+        next_action: Confirm CANN version matrix and traffic budget before download.
+      - id: torch-npu-missing
+        reason: PyTorch and torch_npu are not installed.
+        owner_layer: BackendAdapter
+        evidence:
+          - id: ascend-runbook
+            kind: project-doc
+            uri: docs/ops/ascend-npu-runtime.md
+        next_action: Select matching CANN/PTA/torch_npu matrix.
+    validation_targets:
+      - name: npu-gate-0-5
+        scope: driver, CANN, torch_npu, tensor smoke, VeOmni smoke
+        required_evidence: logs from docs/ops/ascend-npu-runtime.md ordered gates
+        blocking: true
+  - backend: Ascend NPU
+    capability: MiniMax Sparse Attention
+    owner_layer: BackendAdapter
+    status: unsupported
+    evidence:
+      - id: npu-msa-gap
+        kind: project-doc
+        uri: docs/cases/veomni-minimax-m3/npu-runtime-evidence.md
+        note: NPU operator support has not been tested because runtime gates are blocked.
+    validation_targets:
+      - name: npu-msa-operator-evidence
+        scope: MSA kernel or emulated fallback evidence
+        required_evidence: torch_npu/CANN operator behavior and parity logs
+        blocking: false
+
+data_contract:
+  owner_layer: DataAdapter
+  status: unsupported
+  evidence:
+    - id: data-gaps
+      kind: project-doc
+      uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+      note: Tokenizer, processor, checkpoint index, and reference outputs are not pinned.
+  blockers:
+    - id: tokenizer-not-inventoried
+      reason: Tokenizer class, special tokens, chat template, and media placeholder tokens are unknown.
+      owner_layer: DataAdapter
+      evidence:
+        - id: m3-assumptions-tokenizer
+          kind: project-doc
+          uri: docs/cases/veomni-minimax-m3/assumptions.md
+      next_action: Inspect Hugging Face tokenizer and processor files.
+
+recipe:
+  owner_layer: Recipe
+  status: unsupported
+  evidence:
+    - id: first-slice
+      kind: project-doc
+      uri: docs/cases/veomni-minimax-m3/gap-analysis.md
+      note: First slice is reference artifact intake to VeOmni tiny text smoke.
+
+validation:
+  owner_layer: ValidationSuite
+  status: unsupported
+  evidence:
+    - id: validation-gates
+      kind: project-doc
+      uri: docs/cases/veomni-minimax-m3/intake.md
+      note: Manifest, config, tokenizer, checkpoint, construction, parity, accuracy, and NPU gates are defined.
+
+optimization:
+  owner_layer: OptimizationLoop
+  status: unsupported
+  evidence:
+    - id: performance-gates
+      kind: project-doc
+      uri: docs/cases/veomni-minimax-m3/intake.md
+      note: Performance begins after correctness gates pass.
+
+ownership:
+  ModelSpec:
+    team: AI Infra
+    reviewer: pending
+  FrameworkAdapter:
+    team: AI Infra
+    reviewer: pending
+  BackendAdapter:
+    team: AI Infra
+    reviewer: pending
+  DataAdapter:
+    team: AI Infra
+    reviewer: pending
+  ValidationSuite:
+    team: AI Infra
+    reviewer: pending
+  OptimizationLoop:
+    team: AI Infra
+    reviewer: pending
+
+evidence:
+  - id: context
+    kind: project-doc
+    uri: .planning/phases/aimf-02-core-migration-architecture/02-CONTEXT.md
+    note: Phase 2 decisions.
+  - id: reusable-deltas
+    kind: project-doc
+    uri: docs/cases/veomni-minimax-m3/reusable-deltas.md
+    note: Inputs promoted from MiniMax M3 to generic framework contracts.
+  - id: veomni-a2-docker
+    kind: external-url
+    uri: https://github.com/ByteDance-Seed/VeOmni/blob/main/docs/hardware_support/AscendDockerUsage/build_a2_docker.md
+    note: Preferred Ascend A2/910B Docker reference before custom container recipes.

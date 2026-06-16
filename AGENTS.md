@@ -17,7 +17,7 @@ The first concrete case is to onboard MiniMax M3 through the VeOmni framework pa
 - **Accelerators**: GPU and NPU should be modeled as backend capabilities with feature matrices, not as scattered conditional branches.
 - **Model complexity**: MiniMax M3 likely needs sparse-attention/MSA-specific handling, long-context memory planning, and multimodal input contracts.
 - **Adoption**: The framework must fit how infra teams already work: specs, manifests, adapters, reproducible recipes, profiling reports, and CI gates.
-- **Repository publishing**: The target GitHub repository is `https://github.com/Kirrito-k423/AutoModelMigrate.git`; local `origin` should point there. `gh` is installed under `$HOME/.local`, but authentication remains a separate readiness gate.
+- **Repository publishing**: The target GitHub repository is `https://github.com/Kirrito-k423/AutoModelMigrate`; local `origin` uses SSH-over-443 at `ssh://git@ssh.github.com:443/Kirrito-k423/AutoModelMigrate.git`. Phase 01 is published on `master`; future phases should use feature branches and PRs.
 - **NPU runtime**: Ascend NPU setup knowledge is tracked through the global Codex skill `$HOME/.codex/skills/ascend-npu-runtime`; CANN, PTA/torch_npu, root-only `npu-smi`/DCMI behavior, and verification gates must be captured as evidence before claiming NPU execution support. CANN packages must come from the official HiAscend community download page and are large, so confirm version and traffic budget first.
 - **VeOmni Docker**: For Ascend A2/910B Docker setup, prefer VeOmni's upstream `docs/hardware_support/AscendDockerUsage/build_a2_docker.md` guide before writing a custom container recipe.
 

@@ -55,9 +55,9 @@ VeOmni is a useful first integration target because its public positioning empha
 | Start with VeOmni + MiniMax M3 as the first vertical slice | A hard first case prevents a too-generic framework that fails on real sparse/long-context/multimodal requirements | - Pending |
 | Define parity and performance artifacts before implementation | Prevents "it runs" from masquerading as "migration complete" | - Pending |
 | Treat NPU support as a first-class backend path in the design, not a later patch | User specifically needs NPU/GPU migration coverage | - Pending |
-| Publish the repository to `Kirrito-k423/AutoModelMigrate` | Keeps collaboration and future PR work anchored to the user's GitHub namespace | Local `origin` remote configured |
+| Publish the repository to `Kirrito-k423/AutoModelMigrate` | Keeps collaboration and future PR work anchored to the user's GitHub namespace | Published on `master`; local `origin` uses GitHub SSH-over-443 |
 | Capture Ascend runtime setup as `$ascend-npu-runtime` | NPU readiness depends on driver/DCMI, CANN, PTA/torch_npu, and verification gates, not just model code | Global Codex skill created under `$HOME/.codex/skills/ascend-npu-runtime`; current host requires root for `npu-smi info` |
-| Install GitHub CLI locally | Publishing to GitHub should not depend on missing system packages or sudo | `gh` 2.94.0 installed under `$HOME/.local`, authentication still pending |
+| Install GitHub CLI locally | Publishing to GitHub should not depend on missing system packages or sudo | `gh` 2.94.0 installed under `$HOME/.local`; repository metadata access works, git push uses SSH-over-443 deploy key |
 
 ## Evolution
 
@@ -77,4 +77,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-16 after adding root-only npu-smi, HiAscend CANN download, and gh install notes*
+*Last updated: 2026-06-16 after publishing Phase 01 to GitHub via SSH-over-443*

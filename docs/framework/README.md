@@ -47,22 +47,33 @@ contracts, but detailed evidence remains under `docs/cases/veomni-minimax-m3/`.
 
 | Template | File | Use |
 |----------|------|-----|
+| Template pack | `docs/framework/template-pack.md` | Lifecycle catalog for applying the framework templates in order. |
 | Migration intake | `docs/framework/migration-intake-template.md` | Start a new migration with facts, assumptions, backend scope, validation gates, and signoff. |
 | Gap analysis | `docs/framework/gap-analysis-template.md` | Turn intake findings into owner-layer gaps with severity, first action, and blocking status. |
+| Migration manifest template | `docs/framework/migration-manifest-template.yaml` | Placeholder YAML skeleton aligned to the manifest spec and schema. |
+| Backend capability matrix template | `docs/framework/backend-capability-matrix-template.md` | Placeholder capability rows for backend support, blockers, validation targets, precision, memory, communication, compile behavior, and profiler hooks. |
+| Validation recipe template | `docs/framework/validation-recipe-template.yaml` | Placeholder correctness recipe distinguishing failed correctness from blocked runtime. |
+| Accuracy signoff template | `docs/framework/accuracy-signoff-template.yaml` | Placeholder baseline, threshold, drift, lifecycle decision, and reviewer signoff artifact. |
+| Performance profile template | `docs/framework/performance-profile-template.yaml` | Placeholder workload, metrics, profiler, runtime stability, and regression guard artifact. |
+| Optimization report template | `docs/framework/optimization-report-template.md` | Lab-notebook template for profiler-backed before/after optimization attempts. |
+| Migration handoff template | `docs/framework/migration-handoff-template.md` | Final readiness review with evidence inventory, lifecycle state, support scope, blockers, reusable deltas, and reviewer signoff. |
 
 ## How To Start A New Migration
 
-1. Create a migration intake using `docs/framework/migration-intake-template.md`.
-2. Fill or draft a migration manifest using `docs/framework/migration-manifest-spec.md` and the schema in `docs/framework/schemas/migration-manifest.schema.json`.
-3. Separate responsibilities with `docs/framework/adapter-contracts.md`.
-4. Record backend support and blockers with `docs/framework/backend-capability-matrix.md`.
-5. Convert gaps into backlog items using `docs/framework/backlog-taxonomy.md`.
-6. Move through `docs/framework/migration-lifecycle.md` with evidence-gated transitions.
-7. Build correctness gates with `docs/framework/correctness-validation-harness.md` and `docs/framework/schemas/validation-recipe.schema.json`.
-8. Record accuracy and drift signoff with `docs/framework/accuracy-drift-signoff.md` and `docs/framework/schemas/accuracy-signoff.schema.json`.
+1. Start with `docs/framework/template-pack.md` to choose the lifecycle path and templates.
+2. Create a migration intake using `docs/framework/migration-intake-template.md`.
+3. Convert intake findings into owner-layer gaps with `docs/framework/gap-analysis-template.md` and `docs/framework/backlog-taxonomy.md`.
+4. Fill or draft a migration manifest using `docs/framework/migration-manifest-template.yaml`, `docs/framework/migration-manifest-spec.md`, and the schema in `docs/framework/schemas/migration-manifest.schema.json`.
+5. Separate responsibilities with `docs/framework/adapter-contracts.md`.
+6. Record backend support and blockers with `docs/framework/backend-capability-matrix-template.md` and `docs/framework/backend-capability-matrix.md`.
+7. Move through `docs/framework/migration-lifecycle.md` with evidence-gated transitions.
+8. Build correctness gates with `docs/framework/validation-recipe-template.yaml`, `docs/framework/correctness-validation-harness.md`, and `docs/framework/schemas/validation-recipe.schema.json`.
 9. Use `docs/framework/validation-result-lifecycle.md` to decide whether validation results block lifecycle transitions.
-10. Start optimization only after correctness evidence exists, then capture the performance profile contract, schema, optimization loop, and profiler-backed before/after metrics.
-11. Use the MiniMax M3 optimization report example as the lab-notebook pattern for optimization attempts.
+10. Record accuracy and drift signoff with `docs/framework/accuracy-signoff-template.yaml`, `docs/framework/accuracy-drift-signoff.md`, and `docs/framework/schemas/accuracy-signoff.schema.json`.
+11. Capture performance baselines with `docs/framework/performance-profile-template.yaml`, `docs/framework/performance-profile-spec.md`, and `docs/framework/schemas/performance-profile.schema.json`.
+12. Start optimization only after correctness evidence exists, then use `docs/framework/optimization-report-template.md` and `docs/framework/optimization-loop.md` for profiler-backed before/after metrics.
+13. Close the migration with `docs/framework/migration-handoff-template.md`, including evidence inventory, lifecycle state, validation status, accuracy status, performance status, backend capability status, unresolved blockers, reusable deltas, and reviewer signoff.
+14. Use the MiniMax M3 examples as worked examples of support claims, runtime evidence, and blocked evidence handling, not as generic defaults.
 
 ## Phase 2 Contract Boundary
 

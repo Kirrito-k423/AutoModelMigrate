@@ -7,17 +7,17 @@
 
 ### Framework Architecture
 
-- [ ] **ARCH-01**: The framework defines stable contracts for ModelSpec, FrameworkAdapter, BackendAdapter, DataAdapter, Recipe, ValidationSuite, and OptimizationLoop.
-- [ ] **ARCH-02**: The framework can represent source framework, target framework, model family, accelerator backend, dataset format, checkpoint format, and precision policy in a migration manifest.
-- [ ] **ARCH-03**: The design separates model semantics from distributed execution and accelerator-specific implementation.
-- [ ] **ARCH-04**: The framework includes a capability matrix for framework features, backend features, operators, kernels, distributed modes, and unsupported gaps.
+- [x] **ARCH-01**: The framework defines stable contracts for ModelSpec, FrameworkAdapter, BackendAdapter, DataAdapter, Recipe, ValidationSuite, and OptimizationLoop.
+- [x] **ARCH-02**: The framework can represent source framework, target framework, model family, accelerator backend, dataset format, checkpoint format, and precision policy in a migration manifest.
+- [x] **ARCH-03**: The design separates model semantics from distributed execution and accelerator-specific implementation.
+- [x] **ARCH-04**: The framework includes a capability matrix for framework features, backend features, operators, kernels, distributed modes, and unsupported gaps.
 
 ### Migration Workflow
 
-- [ ] **FLOW-01**: A new migration starts with an intake template that captures source/target framework, model architecture, data path, training/inference scope, accelerator scope, and acceptance gates.
-- [ ] **FLOW-02**: Gap analysis produces a prioritized backlog of missing adapters, ops, kernels, distributed features, data transforms, and validation fixtures.
+- [x] **FLOW-01**: A new migration starts with an intake template that captures source/target framework, model architecture, data path, training/inference scope, accelerator scope, and acceptance gates.
+- [x] **FLOW-02**: Gap analysis produces a prioritized backlog of missing adapters, ops, kernels, distributed features, data transforms, and validation fixtures.
 - [ ] **FLOW-03**: Each migration has reproducible recipes for smoke, single-device, distributed, accuracy, and performance runs.
-- [ ] **FLOW-04**: Migration status is tracked through states: Intake, Gap Analysis, Adapter Build, Correctness, Scale, Optimize, Accuracy Signoff, Production Ready.
+- [x] **FLOW-04**: Migration status is tracked through states: Intake, Gap Analysis, Adapter Build, Correctness, Scale, Optimize, Accuracy Signoff, Production Ready.
 
 ### Validation and Optimization
 
@@ -28,9 +28,9 @@
 
 ### Accelerator Portability
 
-- [ ] **ACC-01**: GPU and NPU backend support is modeled through backend capability descriptors instead of hard-coded branches in model adapters.
-- [ ] **ACC-02**: Backend adapters expose supported precision modes, communication primitives, memory constraints, graph/compile constraints, and custom kernel availability.
-- [ ] **ACC-03**: The framework can mark a feature as unsupported, emulated, native, or optimized per backend.
+- [x] **ACC-01**: GPU and NPU backend support is modeled through backend capability descriptors instead of hard-coded branches in model adapters.
+- [x] **ACC-02**: Backend adapters expose supported precision modes, communication primitives, memory constraints, graph/compile constraints, and custom kernel availability.
+- [x] **ACC-03**: The framework can mark a feature as unsupported, emulated, native, or optimized per backend.
 - [x] **ACC-04**: Ascend NPU execution readiness is captured as a reusable runtime skill/playbook covering driver/DCMI, CANN toolkit, PTA/torch_npu, environment activation, and verification evidence.
 
 ### First Case: VeOmni + MiniMax M3
@@ -64,27 +64,30 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ARCH-01 | Phase 2 | Pending |
-| ARCH-02 | Phase 2 | Pending |
-| ARCH-03 | Phase 2 | Pending |
-| ARCH-04 | Phase 2 | Pending |
-| FLOW-01 | Phase 2 | Pending |
-| FLOW-02 | Phase 2 | Pending |
+| ARCH-01 | Phase 2 | Complete |
+| ARCH-02 | Phase 2 | Complete |
+| ARCH-03 | Phase 2 | Complete |
+| ARCH-04 | Phase 2 | Complete |
+| FLOW-01 | Phase 2 | Complete |
+| FLOW-02 | Phase 2 | Complete |
 | FLOW-03 | Phase 3 | Pending |
-| FLOW-04 | Phase 2 | Pending |
+| FLOW-04 | Phase 2 | Complete |
 | VAL-01 | Phase 3 | Pending |
 | VAL-02 | Phase 3 | Pending |
 | VAL-03 | Phase 4 | Pending |
 | VAL-04 | Phase 4 | Pending |
-| ACC-01 | Phase 2 | Pending |
-| ACC-02 | Phase 2 | Pending |
-| ACC-03 | Phase 2 | Pending |
+| ACC-01 | Phase 2 | Complete |
+| ACC-02 | Phase 2 | Complete |
+| ACC-03 | Phase 2 | Complete |
 | ACC-04 | Phase 1 | Complete |
 | M3-01 | Phase 1 | Complete |
 | M3-02 | Phase 1 | Complete |
 | M3-03 | Phase 1 | Complete |
 | M3-04 | Phase 1, Phase 5 | Complete |
 | OPS-01 | Phase 1 | Complete |
+| GEN-01 | v2 | Pending |
+| GEN-02 | v2 | Pending |
+| GEN-03 | v2 | Pending |
 
 **Coverage:**
 
@@ -94,4 +97,4 @@
 
 ---
 *Requirements defined: 2026-06-15*
-*Last updated: 2026-06-16 after adding GitHub publication and Ascend NPU runtime requirements*
+*Last updated: 2026-06-16 after completing Phase 2 architecture requirements*

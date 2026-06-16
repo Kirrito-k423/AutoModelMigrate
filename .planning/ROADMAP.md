@@ -56,9 +56,9 @@ Plans:
 **Plans**: 3 plans
 Plans:
 
-- [ ] 02-01: Define domain model and manifest schema.
-- [ ] 02-02: Define adapter boundaries and capability descriptors.
-- [ ] 02-03: Define migration lifecycle and backlog taxonomy.
+- [x] 02-01: Define domain model and manifest schema.
+- [x] 02-02: Define adapter boundaries and capability descriptors.
+- [x] 02-03: Define migration lifecycle and backlog taxonomy.
 
 ### Phase 3: Correctness and Accuracy Harness
 
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. VeOmni + MiniMax M3 Intake | 4/4 | Complete   | 2026-06-16 |
-| 2. Core Migration Architecture | 3/3 | Complete   | 2026-06-16 |
+| 2. Core Migration Architecture | 3/3 | Complete    | 2026-06-16 |
 | 3. Correctness and Accuracy Harness | 0/2 | Not started | - |
 | 4. Backend Optimization Loop | 0/2 | Not started | - |
 | 5. Reference Case Packaging | 0/2 | Not started | - |

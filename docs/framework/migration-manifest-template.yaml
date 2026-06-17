@@ -1,0 +1,197 @@
+# Generic migration manifest template.
+# Canonical contract: docs/framework/migration-manifest-spec.md
+# Schema: docs/framework/schemas/migration-manifest.schema.json
+# Worked example: docs/framework/examples/veomni-minimax-m3.manifest.yaml
+
+migration:
+  id: "<migration-id>"
+  name: "<source> to <target> for <model-or-feature>"
+  status: "Intake"
+  first_slice: "<smallest useful vertical slice>"
+  non_goals:
+    - "<explicit non-goal>"
+  assumptions:
+    - id: "<assumption-id>"
+      text: "<assumption to validate>"
+      risk: "<risk if assumption is wrong>"
+      validation_needed: "<evidence needed>"
+
+source:
+  name: "<source framework, runtime, checkpoint, or artifact>"
+  kind: "<framework|runtime|checkpoint|dataset|feature>"
+  version_or_revision: "<version, commit, tag, or artifact revision>"
+  evidence:
+    - id: "<source-evidence-id>"
+      kind: "<doc|commit|artifact|command-output>"
+      uri: "<source evidence URI>"
+      note: "<why this evidence matters>"
+
+target:
+  name: "<target framework or runtime>"
+  kind: "<framework|runtime|serving-stack|accelerator-stack>"
+  version_or_revision: "<version, commit, tag, or artifact revision>"
+  evidence:
+    - id: "<target-evidence-id>"
+      kind: "<doc|commit|artifact|command-output>"
+      uri: "<target evidence URI>"
+      note: "<why this evidence matters>"
+
+model_spec:
+  owner_layer: "ModelSpec"
+  model_family: "<model, algorithm, dataset, training feature, or inference feature>"
+  architecture: "<architecture or feature contract>"
+  modalities:
+    - "<modality or input contract>"
+  attention:
+    name: "<attention or algorithm capability>"
+    status: "unsupported"
+    evidence:
+      - id: "<attention-evidence-id>"
+        kind: "<doc|artifact|inspection>"
+        uri: "<evidence URI>"
+        note: "<evidence note>"
+    blockers:
+      - id: "<capability-blocker-id>"
+        reason: "<missing evidence or implementation>"
+        owner_layer: "ModelSpec"
+        evidence:
+          - id: "<blocker-evidence-id>"
+            kind: "<doc|issue|inspection>"
+            uri: "<evidence URI>"
+        next_action: "<next evidence-producing action>"
+  context:
+    advertised_limit: "<declared limit or not applicable>"
+    validation_targets:
+      - name: "<context validation target>"
+        scope: "<tiny|scale|production>"
+        required_evidence: "<shape, command, or output evidence>"
+        blocking: true
+  precision_policy:
+    - "<dtype policy>"
+  artifact_revision:
+    id: "<artifact-revision-id>"
+    kind: "<commit|artifact|registry>"
+    uri: "<artifact revision URI>"
+    note: "<pinning note>"
+  checkpoint:
+    name: "<checkpoint capability>"
+    status: "unsupported"
+    evidence:
+      - id: "<checkpoint-evidence-id>"
+        kind: "<artifact|inspection>"
+        uri: "<evidence URI>"
+  tokenizer_processor:
+    name: "<tokenizer or processor capability>"
+    status: "unsupported"
+    evidence:
+      - id: "<data-contract-evidence-id>"
+        kind: "<artifact|inspection|fixture>"
+        uri: "<evidence URI>"
+  assumptions:
+    - id: "<model-assumption-id>"
+      text: "<model or feature assumption>"
+      risk: "<risk>"
+      validation_needed: "<validation action>"
+  evidence:
+    - id: "<model-spec-evidence-id>"
+      kind: "<doc|artifact|inspection>"
+      uri: "<evidence URI>"
+
+framework_adapter:
+  owner_layer: "FrameworkAdapter"
+  status: "unsupported"
+  evidence:
+    - id: "<framework-adapter-evidence-id>"
+      kind: "<doc|source-inspection|command-output>"
+      uri: "<evidence URI>"
+  blockers:
+    - id: "<framework-adapter-blocker-id>"
+      reason: "<missing target framework hook or adapter>"
+      owner_layer: "FrameworkAdapter"
+      evidence:
+        - id: "<framework-blocker-evidence-id>"
+          kind: "<doc|source-inspection>"
+          uri: "<evidence URI>"
+      next_action: "<next adapter action>"
+
+backend_matrix:
+  - backend: "<backend name>"
+    capability: "<device visibility, precision, memory, communication, compile, profiler, or operator capability>"
+    owner_layer: "BackendAdapter"
+    status: "unsupported"
+    evidence:
+      - id: "<backend-evidence-id>"
+        kind: "<doc|command-output|profile>"
+        uri: "<evidence URI>"
+    blockers:
+      - id: "<backend-blocker-id>"
+        reason: "<runtime, capability, permission, or evidence blocker>"
+        owner_layer: "BackendAdapter"
+        evidence:
+          - id: "<backend-blocker-evidence-id>"
+            kind: "<doc|command-output|issue>"
+            uri: "<evidence URI>"
+        next_action: "<next backend evidence action>"
+    validation_targets:
+      - name: "<backend validation target>"
+        scope: "<runtime|correctness|scale|performance>"
+        required_evidence: "<required command output or artifact>"
+        blocking: true
+
+data_contract:
+  owner_layer: "DataAdapter"
+  status: "unsupported"
+  evidence:
+    - id: "<data-contract-evidence-id>"
+      kind: "<doc|fixture|artifact-inspection>"
+      uri: "<evidence URI>"
+  assumptions:
+    - id: "<data-assumption-id>"
+      text: "<data, tokenizer, processor, or checkpoint assumption>"
+      risk: "<risk>"
+      validation_needed: "<validation action>"
+
+recipe:
+  owner_layer: "Recipe"
+  status: "unsupported"
+  evidence:
+    - id: "<recipe-evidence-id>"
+      kind: "<command|config|doc>"
+      uri: "<evidence URI>"
+      note: "<reproducibility note>"
+
+validation:
+  owner_layer: "ValidationSuite"
+  status: "unsupported"
+  evidence:
+    - id: "<validation-evidence-id>"
+      kind: "<recipe|log|report>"
+      uri: "<evidence URI>"
+
+optimization:
+  owner_layer: "OptimizationLoop"
+  status: "unsupported"
+  evidence:
+    - id: "<optimization-evidence-id>"
+      kind: "<profile|report|trace>"
+      uri: "<evidence URI>"
+
+ownership:
+  model_spec:
+    team: "<owning team>"
+    reviewer: "<required reviewer>"
+  framework_adapter:
+    team: "<owning team>"
+    reviewer: "<required reviewer>"
+  backend_adapter:
+    team: "<owning team>"
+    reviewer: "<required reviewer>"
+  validation:
+    team: "<owning team>"
+    reviewer: "<required reviewer>"
+
+evidence:
+  - id: "<manifest-evidence-id>"
+    kind: "<doc|schema-validation|review>"
+    uri: "<evidence URI>"
+    note: "<manifest evidence note>"

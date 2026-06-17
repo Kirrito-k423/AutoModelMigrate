@@ -1,0 +1,141 @@
+# Generic performance profile template.
+# Canonical contract: docs/framework/performance-profile-spec.md
+# Schema: docs/framework/schemas/performance-profile.schema.json
+# Worked example: docs/framework/examples/veomni-minimax-m3.performance-profile.yaml
+
+profile_id: "<migration-id>-performance-profile"
+version: "0.1.0"
+migration_id: "<migration-id>"
+
+manifest_ref:
+  path: "<manifest path>"
+  uri: "<manifest URI>"
+  revision: "<manifest revision>"
+  checksum: "<manifest checksum>"
+
+baseline_id: "<baseline-run-id>"
+candidate_id: "<candidate-run-id>"
+backend: "<backend>"
+dtype: "<dtype>"
+
+hardware:
+  name: "<hardware name or class>"
+  kind: "<cpu|gpu|npu|accelerator|reference>"
+  count: 1
+  memory_gib: null
+  interconnect: "<interconnect or not applicable>"
+  host_os: "<host OS>"
+
+framework_revision:
+  name: "<framework or runtime>"
+  revision: "<version, commit, tag, or artifact revision>"
+  commit: "<commit hash>"
+  recipe_ref: "<validation or run recipe path>"
+
+workload:
+  slice: "<workload slice>"
+  modality: "<modality>"
+  declared_batch_shape:
+    batch_size: 1
+    sequence_length: 1
+    context_length: 1
+  actual_batch_shape:
+    batch_size: 1
+    sequence_length: 1
+    context_length: 1
+  declared_context_length: 1
+  actual_context_length: 1
+  declared_sequence_length: 1
+  actual_sequence_length: 1
+  scale_target: "<scale or optimization target>"
+  environment:
+    backend_activation: "<activation command or environment note>"
+    env_vars:
+      pythonpath: "<PYTHONPATH or not applicable>"
+      ld_library_path: "<LD_LIBRARY_PATH or not applicable>"
+  notes: "<workload notes>"
+
+metrics:
+  common:
+    throughput:
+      value: null
+      unit: "<samples/s|tokens/s|items/s>"
+      sample_window_s: null
+    latency:
+      unit: "ms"
+      p50_ms: null
+      p95_ms: null
+      p99_ms: null
+    memory:
+      peak_gib: null
+      activation_gib: null
+      kv_cache_gib: null
+      reserved_gib: null
+    utilization:
+      device_utilization_pct: null
+      memory_utilization_pct: null
+      compute_utilization_pct: null
+    compile_overhead:
+      value: null
+      unit: "s"
+      warmup_runs: null
+      cache_hit: null
+    runtime_stability:
+      status: "pending"
+      duration_min: null
+      incidents: null
+      notes: "<runtime stability notes>"
+  backend_specific:
+    "<backend>":
+      status: "pending"
+      counters:
+        "<counter-name>": null
+      blockers:
+        - id: "<backend-blocker-id>"
+          reason: "<blocked runtime or missing evidence reason>"
+          evidence:
+            - kind: "<doc|log|issue>"
+              uri: "<evidence URI>"
+              note: "<evidence note>"
+          next_action: "<next backend evidence action>"
+      notes: "<backend-specific notes>"
+
+profiler:
+  tool: "<profiler tool>"
+  capture_command: "<profile capture command>"
+  capture_window: "<warmup, active window, repeat count, and workload identity>"
+  artifact_refs:
+    - kind: "<profiler-log|profiler-trace|report>"
+      uri: "<artifact URI>"
+      note: "<artifact note>"
+  notes: "<profiler notes>"
+
+bottleneck:
+  hypothesis: "<expected bottleneck hypothesis>"
+  observed_evidence:
+    - kind: "<profiler-summary|runtime-note|metric>"
+      summary: "<observed evidence summary>"
+      uri: "<evidence URI>"
+  expected_bottleneck: "<expected bottleneck>"
+  scope: "<optimization scope>"
+  severity: "<low|medium|high|critical>"
+
+regression_guard:
+  correctness_checks:
+    - "<correctness check that must remain green>"
+  acceptance_thresholds:
+    throughput_delta_pct_min: 0
+    latency_regression_pct_max: 0
+    runtime_stability_incidents_max: 0
+  rerun_criteria:
+    - "<how to reproduce the baseline and candidate run>"
+  rollback_criteria:
+    - "<condition that requires rollback>"
+  notes: "<regression guard notes>"
+
+status: "pending"
+
+evidence:
+  - kind: "<profile|trace|report|log>"
+    uri: "<evidence URI>"
+    note: "<evidence note>"

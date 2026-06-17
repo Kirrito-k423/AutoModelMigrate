@@ -40,6 +40,25 @@ MiniMax M3 is intentionally a hard first case. Its sparse attention, long contex
 | Ascend A2/910B Docker guide | The generic template should ask for backend runtime evidence; the VeOmni A2 guide is a case/source-specific reference. |
 | Current host root-only `npu-smi` behavior | The generic template should support privileged runtime evidence; this exact behavior belongs to this host. |
 
+## Phase 5 Packaging Deltas
+
+Phase 5 packages the reusable template set and the reference case boundary. It
+uses MiniMax M3 lessons to improve generic contracts, but it does not turn
+MiniMax-specific facts into generic defaults.
+
+| Delta | Case Trigger | Generic Template Impact |
+|-------|--------------|-------------------------|
+| validation recipe template | The case needs first-slice correctness gates and blocked NPU runtime handling. | `docs/framework/validation-recipe-template.yaml` separates failed correctness from blocked runtime. |
+| accuracy signoff template | No task-level MiniMax M3 accuracy baseline or threshold is approved yet. | `docs/framework/accuracy-signoff-template.yaml` requires baseline, metric, threshold, drift policy, lifecycle decision, and reviewer. |
+| performance profile template | The case needs backend, dtype, workload, compile overhead, runtime stability, profiler evidence, and regression guard. | `docs/framework/performance-profile-template.yaml` captures performance evidence before optimization claims. |
+| optimization report template | The case needs correctness-before-optimization and rollback criteria for any tuning attempt. | `docs/framework/optimization-report-template.md` records hypothesis, config diff, before/after metrics, correctness regression, acceptance, rollback, and backlog handoff. |
+| handoff template | The case has mixed statuses: intake/gap docs exist, runtime support is blocked, and accuracy/performance evidence is incomplete. | `docs/framework/migration-handoff-template.md` closes with evidence inventory, lifecycle state, support scope, unresolved blockers, reusable deltas, and reviewer signoff. |
+| reference-case index | The case needs one entry point that names what is case evidence versus generic contract example. | `docs/cases/veomni-minimax-m3/reference-case.md` documents worked-example boundaries and warns against support claims without runtime evidence. |
+
+See `docs/cases/veomni-minimax-m3/reference-case.md` for the reference-case
+index and the boundary between case evidence, generic contracts, and generic
+defaults.
+
 ## Architecture Inputs For Phase 2
 
 - ModelSpec needs fields for custom attention/operator requirements, advertised limits, staged validation limits, modality contracts, dtype policy, and artifact revision.

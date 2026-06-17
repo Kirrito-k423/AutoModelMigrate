@@ -1,11 +1,13 @@
 ---
 phase: aimf-04-backend-optimization-loop
-status: blocked
+status: shipped
 blocked_at: 2026-06-16T13:30:00Z
-last_checked: 2026-06-16T13:45:00Z
+last_checked: 2026-06-16T13:55:00Z
 branch: codex/phase-3-correctness-accuracy-harness
 base: master
 remote: origin
+pr_number: 1
+pr_url: https://github.com/Kirrito-k423/AutoModelMigrate/pull/1
 ---
 
 # Phase 4 Ship Handoff
@@ -14,17 +16,17 @@ remote: origin
 
 Phase 4 execution, verification, UAT, and security gates are complete.
 
-The branch was pushed successfully:
+The branch was pushed successfully and PR #1 now exists:
 
 - Branch: `codex/phase-3-correctness-accuracy-harness`
 - Base: `master`
-- Latest confirmed remote head before this handoff update: `c6f1c9c`
-- Remote PR URL: `https://github.com/Kirrito-k423/AutoModelMigrate/pull/new/codex/phase-3-correctness-accuracy-harness`
+- Latest confirmed remote head: `c7b41e0`
+- PR: `https://github.com/Kirrito-k423/AutoModelMigrate/pull/1`
 
-## PR Creation Blocker
+## PR Creation Notes
 
-Automated PR creation is blocked by GitHub token permissions, not by git or
-phase validation.
+Automated PR discovery through `gh pr list` remains blocked by GitHub token
+permissions, but PR existence is proven through the GitHub pull ref.
 
 Evidence:
 
@@ -43,21 +45,14 @@ Evidence:
 - Retrying REST PR creation with owner-qualified head
   `Kirrito-k423:codex/phase-3-correctness-accuracy-harness` still failed with
   `not all refs are readable`.
+- Later recheck found `refs/pull/1/head` pointing to
+  `c7b41e08730f3924b03be816fb9b947c3924617a`, which matches the branch head.
+  Ship is therefore recorded as PR #1 despite the permission-blind `gh pr list`.
 
 ## Next Action
 
-Create the PR manually from:
-
-`https://github.com/Kirrito-k423/AutoModelMigrate/pull/new/codex/phase-3-correctness-accuracy-harness`
-
-Or refresh the GitHub CLI token with repository contents/metadata/pull-request
-permissions, then rerun:
-
-```bash
-gh pr create \
-  --title "Phase 3-4: correctness harness and backend optimization loop" \
-  --base master
-```
+Review/merge PR #1 when ready. A future token refresh is still recommended so
+`gh pr list`, `gh pr view`, and REST ref reads work normally.
 
 ## Included Work
 

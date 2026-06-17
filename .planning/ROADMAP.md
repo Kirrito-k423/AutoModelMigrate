@@ -10,7 +10,7 @@ The roadmap starts with a real integration slice, then extracts reusable framewo
 - [x] **Phase 2: Core Migration Architecture** - Design manifests, adapters, capability matrices, and lifecycle states. (completed 2026-06-16)
 - [x] **Phase 3: Correctness and Accuracy Harness** - Define reproducible validation recipes and parity gates. (completed 2026-06-16)
 - [x] **Phase 4: Backend Optimization Loop** - Define GPU/NPU capability modeling, profiling workflow, and performance signoff. (completed 2026-06-16)
-- [ ] **Phase 5: Reference Case Packaging** - Package VeOmni + MiniMax M3 outputs into reusable templates and next-case guidance.
+- [x] **Phase 5: Reference Case Packaging** - Package VeOmni + MiniMax M3 outputs into reusable templates and next-case guidance. (completed 2026-06-16)
 
 ## Phase Details
 
@@ -108,11 +108,14 @@ Plans:
   3. The next migration can start from documented intake, gap, validation, and optimization templates.
 
 **Plans**: 2 plans
-
 Plans:
+**Wave 1**
 
-- [ ] 05-01: Package reusable migration templates.
-- [ ] 05-02: Produce next-case handoff guide.
+- [x] 05-01: Package reusable migration templates.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 05-02: Produce next-case handoff guide.
 
 ## Progress
 
@@ -125,4 +128,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Core Migration Architecture | 3/3 | Complete    | 2026-06-16 |
 | 3. Correctness and Accuracy Harness | 2/2 | Complete   | 2026-06-16 |
 | 4. Backend Optimization Loop | 2/2 | Complete    | 2026-06-16 |
-| 5. Reference Case Packaging | 0/2 | Not started | - |
+| 5. Reference Case Packaging | 2/2 | Complete    | 2026-06-16 |

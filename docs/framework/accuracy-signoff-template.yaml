@@ -1,0 +1,90 @@
+# Generic accuracy and drift signoff template.
+# Canonical contract: docs/framework/accuracy-drift-signoff.md
+# Schema: docs/framework/schemas/accuracy-signoff.schema.json
+# Worked example: docs/framework/examples/veomni-minimax-m3.accuracy-signoff.yaml
+
+signoff_id: "<migration-id>-accuracy-signoff"
+migration_id: "<migration-id>"
+version: "0.1.0"
+
+baseline:
+  name: "<reference system>"
+  kind: "<reference-model|source-framework|service|artifact>"
+  version_or_revision: "<version, commit, tag, or artifact revision>"
+  backend: "<backend or reference path>"
+  dtype: "<dtype policy>"
+  command: "<baseline evaluation command>"
+  artifact_hashes:
+    - "<baseline artifact hash>"
+
+candidate:
+  name: "<target system>"
+  kind: "<target-framework-adapter|runtime|recipe>"
+  version_or_revision: "<version, commit, tag, or artifact revision>"
+  backend: "<backend or reference path>"
+  dtype: "<dtype policy>"
+  command: "<candidate evaluation command>"
+  artifact_hashes:
+    - "<candidate artifact hash>"
+
+evaluation:
+  eval_set_id: "<evaluation-set-id>"
+  version: "<evaluation-set-version>"
+  scope: "<task, fixture, modality, backend, dtype, and slice scope>"
+  sample_count: 0
+  license_or_usage: "<license, privacy, or usage notes>"
+  metrics:
+    - name: "<metric-name>"
+      definition: "<metric definition>"
+      owner: "ValidationSuite"
+
+thresholds:
+  - metric: "<metric-name>"
+    comparator: "greater_than_or_equal"
+    target: 0
+    tolerance: 0
+    dtype_scope:
+      - "<dtype>"
+    backend_scope:
+      - "<backend>"
+    kernel_scope:
+      - "<kernel or execution mode>"
+    blocking: true
+    blocks_transition: "Accuracy Signoff -> Production Ready"
+
+drift_policy:
+  seed_policy: "<seed or nondeterminism policy>"
+  dtype_scope:
+    - "<dtype>"
+  backend_scope:
+    - "<backend>"
+  kernel_scope:
+    - "<kernel or execution mode>"
+  tolerance_notes: "<how threshold and drift tolerance were chosen>"
+
+results:
+  - metric: "<metric-name>"
+    status: "pending"
+    value: null
+    baseline_value: null
+    candidate_value: null
+    blocks_transition: true
+    evidence: []
+
+lifecycle_decision:
+  state: "pending"
+  blocks_transition: true
+  target_transition: "Accuracy Signoff -> Production Ready"
+  reason: "<why the transition is allowed or blocked>"
+
+review:
+  reviewer: "<reviewer>"
+  date: "<YYYY-MM-DD>"
+  decision: "pending"
+  notes: "<review notes>"
+
+evidence:
+  - id: "<accuracy-signoff-evidence-id>"
+    kind: "<report|log|artifact|review>"
+    uri: "<evidence URI>"
+    note: "<evidence note>"

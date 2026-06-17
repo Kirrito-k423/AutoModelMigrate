@@ -66,8 +66,43 @@ python3 -m py_compile \
   veomni/models/transformers/minimax_m3_vl/parallel_plan.py \
   tests/models/test_model_registry.py
 python3 -m json.tool tests/toy_config/minimax_m3_vl_toy/config.json
-pytest tests/models/test_model_registry.py -k minimax_m3_vl -q
+  pytest tests/models/test_model_registry.py -k minimax_m3_vl -q
 ```
+
+For the training-evidence gate, add and run a tiny SFT smoke that proves the
+MiniMax M3 path can load:
+
+- the MiniMax M3 toy config through VeOmni's config registry,
+- a no-real-weights manifest that explicitly records random initialization,
+- a local JSONL SFT dataset,
+- a real backward/optimizer loop that emits a decreasing loss curve.
+
+Use a command shaped like:
+
+```bash
+env PYTHONPATH="$PWD" uv run --no-project --python 3.11 \
+  --with torch==2.7.1 \
+  --with transformers==5.9.0 \
+  --with matplotlib \
+  --with numpy \
+  --with psutil \
+  --with packaging \
+  --with safetensors \
+  --with tqdm \
+  python tests/train_scripts/train_minimax_m3_vl_sft_smoke.py \
+  --config-path ./tests/toy_config/minimax_m3_vl_toy \
+  --weights-manifest ./tests/fixtures/minimax_m3_vl_sft/random_init_weights_manifest.json \
+  --dataset-path ./tests/fixtures/minimax_m3_vl_sft/tiny_sft.jsonl \
+  --output-dir docs/usage/support_new_models/artifacts/minimax_m3_vl_sft_smoke \
+  --steps 80 \
+  --batch-size 4 \
+  --lr 0.02 \
+  --seed 20260617
+```
+
+The validation report should include the first and last loss, the JSON log,
+and a rendered PNG loss curve. Treat this as a tiny random-init training proof,
+not as full production MiniMax M3 VL patchgen modeling support.
 
 If the host lacks VeOmni's required Python or dependencies, record that as
 runtime evidence instead of claiming the gate passed. A useful fallback is a
@@ -94,4 +129,3 @@ The PR or handoff is incomplete until it has:
   upstream dependency blockers.
 - Next patchgen step: move or relax the transformers pin, generate patched
   modeling from the MiniMax M3 VL source, then add forward/trainer smoke.
-

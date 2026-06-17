@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: "Phase 5 branch rebased onto master and pushed; PR creation still blocked by GitHub token branch/ref permissions"
-stopped_at: Phase 5 branch rebased onto master and pushed; PR creation still blocked by GitHub token branch/ref permissions
-last_updated: "2026-06-16T15:15:33.000Z"
-last_activity: 2026-06-16 -- Rebased Phase 5 onto merged PR #1/master and rechecked PR creation; still blocked by GitHub token branch/ref permissions
+status: Awaiting next milestone
+stopped_at: Milestone v1.0 complete; awaiting next milestone planning
+last_updated: "2026-06-17T03:45:43.925Z"
+last_activity: 2026-06-17 — Milestone v1.0 completed and archived
 progress:
   total_phases: 5
   completed_phases: 5
@@ -18,19 +18,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-16)
+See: .planning/PROJECT.md (updated 2026-06-17)
 
 **Core value:** Make cross-framework and cross-accelerator model migration repeatable, measurable, and safe.
-**Current focus:** Phase 5 - Reference Case Packaging
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 5 (Reference Case Packaging) - COMPLETE
-Plan: 2 of 2 complete
-Status: Phase 5 branch rebased onto master and pushed; PR creation still blocked by GitHub token branch/ref permissions
-Last activity: 2026-06-16 -- Rebased Phase 5 onto merged PR #1/master and rechecked PR creation; still blocked by GitHub token branch/ref permissions
-
-Progress: [██████████] 100% overall, Phase 05 plans 2/2 complete
+Phase: Milestone v1.0 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-06-17 — Milestone v1.0 completed and archived
 
 ## Performance Metrics
 
@@ -64,6 +62,8 @@ Recent decisions affecting current work:
 - Phase 01 verification is passed, UAT is complete, and security threats are closed (`threats_open: 0`).
 - Phase 01 initial publication is complete: `master` was pushed to GitHub at `ee7155b`.
 - Phase 02 verification is passed, UAT is complete, code review is clean, and security threats are closed (`threats_open: 0`).
+- Phase 05 was merged through PR #2 into `master` on 2026-06-17.
+- Milestone v1.0 is archived under `.planning/milestones/`, with requirements, roadmap, and audit evidence preserved.
 
 ### Pending Todos
 
@@ -87,6 +87,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-16T15:15:33.000Z
-Stopped at: Phase 5 branch rebased onto master and pushed; PR creation still blocked by GitHub token branch/ref permissions
-Resume file: .planning/phases/aimf-05-reference-case-packaging/05-SHIP.md
+Last session: 2026-06-17T03:45:43.925Z
+Stopped at: Milestone v1.0 complete; awaiting next milestone planning
+Resume file: .planning/MILESTONES.md
+
+## Operator Next Steps
+
+- Start the next milestone with /gsd-new-milestone

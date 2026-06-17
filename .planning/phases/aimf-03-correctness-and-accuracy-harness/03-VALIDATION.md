@@ -1,7 +1,7 @@
 ---
 phase: 03
 slug: correctness-and-accuracy-harness
-status: draft
+status: verified
 nyquist_compliant: true
 wave_0_complete: true
 created: 2026-06-16
@@ -32,12 +32,12 @@ Per-phase validation contract for feedback sampling during execution.
 
 | Task ID | Plan | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | Status |
 |---------|------|-------------|------------|-----------------|-----------|-------------------|--------|
-| 03-01-01 | 03-01 | FLOW-03, VAL-01 | T-03-01 | Prevents "runs once" from becoming correctness signoff | source | `rg "manifest|tokenizer|checkpoint|forward|loss|deterministic|backend runtime" docs/framework/correctness-validation-harness.md` | pending |
-| 03-01-02 | 03-01 | FLOW-03, VAL-01 | T-03-02 | Makes validation recipes reproducible and manifest-addressable | schema | `python3 -m json.tool docs/framework/schemas/validation-recipe.schema.json >/dev/null` | pending |
-| 03-01-03 | 03-01 | FLOW-03, VAL-01 | T-03-03 | Keeps MiniMax M3 first slice small while preserving deferred gates | source/yaml | `python3 - <<'PY'\nimport yaml\nwith open('docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml', encoding='utf-8') as f:\n    yaml.safe_load(f)\nPY` | pending |
-| 03-02-01 | 03-02 | VAL-02 | T-03-04 | Separates accuracy signoff from smoke/parity | source | `rg "baseline|dataset|metric|threshold|dtype|backend|reviewer" docs/framework/accuracy-drift-signoff.md` | pending |
-| 03-02-02 | 03-02 | VAL-02 | T-03-05 | Requires versioned thresholds and evidence links | schema | `python3 -m json.tool docs/framework/schemas/accuracy-signoff.schema.json >/dev/null` | pending |
-| 03-02-03 | 03-02 | VAL-01, VAL-02 | T-03-06 | Allows validation results to block lifecycle transitions | source/yaml | `rg "blocks_transition|Correctness|Accuracy Signoff|Production Ready" docs/framework/validation-result-lifecycle.md docs/framework/examples/veomni-minimax-m3.accuracy-signoff.yaml` | pending |
+| 03-01-01 | 03-01 | FLOW-03, VAL-01 | T-03-01 | Prevents "runs once" from becoming correctness signoff | source | `rg "manifest|tokenizer|checkpoint|forward|loss|deterministic|backend runtime" docs/framework/correctness-validation-harness.md` | green |
+| 03-01-02 | 03-01 | FLOW-03, VAL-01 | T-03-02 | Makes validation recipes reproducible and manifest-addressable | schema | `python3 -m json.tool docs/framework/schemas/validation-recipe.schema.json >/dev/null` | green |
+| 03-01-03 | 03-01 | FLOW-03, VAL-01 | T-03-03 | Keeps MiniMax M3 first slice small while preserving deferred gates | source/yaml | `python3 - <<'PY'\nimport yaml\nwith open('docs/framework/examples/veomni-minimax-m3.validation-recipe.yaml', encoding='utf-8') as f:\n    yaml.safe_load(f)\nPY` | green |
+| 03-02-01 | 03-02 | VAL-02 | T-03-04 | Separates accuracy signoff from smoke/parity | source | `rg "baseline|dataset|metric|threshold|dtype|backend|reviewer" docs/framework/accuracy-drift-signoff.md` | green |
+| 03-02-02 | 03-02 | VAL-02 | T-03-05 | Requires versioned thresholds and evidence links | schema | `python3 -m json.tool docs/framework/schemas/accuracy-signoff.schema.json >/dev/null` | green |
+| 03-02-03 | 03-02 | VAL-01, VAL-02 | T-03-06 | Allows validation results to block lifecycle transitions | source/yaml | `rg "blocks_transition|Correctness|Accuracy Signoff|Production Ready" docs/framework/validation-result-lifecycle.md docs/framework/examples/veomni-minimax-m3.accuracy-signoff.yaml` | green |
 
 ## Wave 0 Requirements
 
@@ -57,3 +57,15 @@ All Phase 3 artifacts have source, schema, or YAML parsing checks. Human review 
 - [x] `nyquist_compliant: true` set in frontmatter.
 
 **Approval:** approved 2026-06-16 for planning use
+
+## Validation Audit 2026-06-17
+
+| Metric | Count |
+|--------|-------|
+| Gaps found | 0 |
+| Resolved | 6 |
+| Escalated | 0 |
+
+Phase 03 remains Nyquist-compliant for a documentation/schema phase. JSON
+schemas, YAML examples, and source assertions cover the declared validation and
+accuracy-drift requirements.

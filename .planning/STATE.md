@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Awaiting next milestone
-stopped_at: Milestone v1.0 complete; awaiting next milestone planning
-last_updated: "2026-06-17T03:45:43.925Z"
-last_activity: 2026-06-17 — Milestone v1.0 completed and archived
+status: VeOmni MiniMax M3 delivery in progress
+stopped_at: Capturing reusable VeOmni MiniMax M3 migration skill while PR work continues
+last_updated: "2026-06-17T07:28:54.964Z"
+last_activity: 2026-06-17 — Added VeOmni MiniMax M3 migration skill from active slice work
 progress:
   total_phases: 5
   completed_phases: 5
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-17)
 
 **Core value:** Make cross-framework and cross-accelerator model migration repeatable, measurable, and safe.
-**Current focus:** Planning next milestone
+**Current focus:** Real VeOmni MiniMax M3 migration delivery
 
 ## Current Position
 
-Phase: Milestone v1.0 complete
-Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-06-17 — Milestone v1.0 completed and archived
+Phase: Post-v1 real delivery
+Plan: VeOmni MiniMax M3 minimum migration slice
+Status: In progress
+Last activity: 2026-06-17 — Added VeOmni MiniMax M3 migration skill from active slice work
 
 ## Performance Metrics
 
@@ -64,6 +64,8 @@ Recent decisions affecting current work:
 - Phase 02 verification is passed, UAT is complete, code review is clean, and security threats are closed (`threats_open: 0`).
 - Phase 05 was merged through PR #2 into `master` on 2026-06-17.
 - Milestone v1.0 is archived under `.planning/milestones/`, with requirements, roadmap, and audit evidence preserved.
+- Active real-delivery work targets `ByteDance-Seed/VeOmni` with a MiniMax M3 minimum migration slice, validation report, and upstream PR.
+- MiniMax M3 first-slice learnings are captured in `.codex/skills/veomni-minimax-m3-migration/SKILL.md`.
 
 ### Pending Todos
 
@@ -85,11 +87,17 @@ None yet.
 |----------|------|--------|-------------|
 | Platform | Dashboard/reporting for a portfolio of migrations | Deferred to v2 | Project init |
 
+## Quick Tasks Completed
+
+| Date | Task | Artifact |
+|------|------|----------|
+| 2026-06-17 | Capture VeOmni MiniMax M3 migration slice learnings as a project skill | `.codex/skills/veomni-minimax-m3-migration/SKILL.md` |
+
 ## Session Continuity
 
-Last session: 2026-06-17T03:45:43.925Z
-Stopped at: Milestone v1.0 complete; awaiting next milestone planning
-Resume file: .planning/MILESTONES.md
+Last session: 2026-06-17T07:28:54.964Z
+Stopped at: VeOmni MiniMax M3 delivery in progress
+Resume file: .codex/skills/veomni-minimax-m3-migration/SKILL.md
 
 ## Operator Next Steps
 
